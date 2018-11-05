@@ -59,6 +59,7 @@
     <Compile Include="Context\PostgresContext.cs" />
     <Compile Include="Context\SqlServerContext.cs" />
     <Compile Include="Context\SybaseContext.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Predicates\OrderByPredicate.cs" />
     <Compile Include="Predicates\PredicateBase.cs" />
     <Compile Include="Predicates\PredicateCollection.cs" />

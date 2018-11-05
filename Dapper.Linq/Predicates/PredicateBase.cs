@@ -21,12 +21,23 @@ namespace Dapper.Linq.Predicates
 				throw new ArgumentNullException(nameof(expression));
 		}
 
-		public static IPredicate Where(MethodCallExpression expression) =>
-			new WherePredicate(expression);
-		public static IPredicate OrderBy(MethodCallExpression expression) =>
-			new OrderByPredicate(expression);
-		public static IPredicate OrderByDescending(MethodCallExpression expression) =>
-			new OrderByPredicate(expression, descending: true);
+		public static IPredicate Create(PredicateType type, MethodCallExpression method)
+		{
+			switch (type)
+			{
+				case PredicateType.Where:
+					return new WherePredicate(method);
+				case PredicateType.OrderBy:
+					return new OrderByPredicate(method);
+				case PredicateType.OrderByDescending:
+					return new OrderByPredicate(method, descending: true);
+				case PredicateType.Select:
+				case PredicateType.Take:
+				default:
+					throw new InvalidOperationException(
+						$"Predicate {type} does not exists");
+			}
+		}
 
 		public string BuildQuery(StringBuilder query)
 		{

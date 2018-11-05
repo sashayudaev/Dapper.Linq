@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Text;
+﻿using System.Linq.Expressions;
 using Dapper.Linq.Core;
 
 namespace Dapper.Linq.Predicates
@@ -19,8 +17,8 @@ namespace Dapper.Linq.Predicates
 		protected override Expression VisitMethodCall(MethodCallExpression expression)
 		{
 			Query.Append(" WHERE ");
-
 			var argument = expression.Arguments[1];
+
 			var lambda = RemoveQuote<LambdaExpression>(argument);
 			this.Visit(lambda.Body);
 			return expression;

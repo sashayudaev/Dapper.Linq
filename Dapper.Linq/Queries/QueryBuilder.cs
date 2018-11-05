@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Dapper.Linq.Core;
+using Dapper.Linq.Helpers;
 using Dapper.Linq.Predicates;
 
 namespace Dapper.Linq.Queries
@@ -30,15 +31,10 @@ namespace Dapper.Linq.Queries
 			}
 
 			var method = expression.Method.Name;
-			if(method == "Where")
+			if(EnumHelper.TryGetFromDescription(method, out PredicateType type))
 			{
-				Predicates.Add(PredicateBase.Where(expression));
-				this.VisitNext(expression);
-			}
-
-			if (method == "OrderBy")
-			{
-				Predicates.Add(PredicateBase.OrderBy(expression));
+				var predicate = PredicateBase.Create(type, expression);
+				Predicates.Add(predicate);
 				this.VisitNext(expression);
 			}
 
