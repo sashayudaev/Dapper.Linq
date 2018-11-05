@@ -20,10 +20,10 @@ namespace Dapper.Linq.Queries
 
 		public Query(IQueryProvider provider, Expression expression)
 		{
+			Expression = expression ??
+				Expression.Constant(this);
 			Provider = provider ?? 
 				throw new ArgumentNullException(nameof(provider));
-			Expression = expression ??
-				throw new ArgumentNullException(nameof(expression));
 		}
 
 		IEnumerator<TEntity> GetEnumerator() =>

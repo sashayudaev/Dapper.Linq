@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿using System.Data;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using Dapper.Linq.Core;
 
 namespace Dapper.Linq.Queries
 {
@@ -12,8 +8,8 @@ namespace Dapper.Linq.Queries
 	{
 		public QueryBuilder QueryBuilder { get; }
 
-		public DatabaseQueryProvider(IDbConnection connection) 
-			: base(connection)
+		public DatabaseQueryProvider(IStorageContext context) 
+			: base(context)
 		{
 			QueryBuilder = new QueryBuilder();
 		}
@@ -21,7 +17,9 @@ namespace Dapper.Linq.Queries
 		public override TResult Execute<TResult>(Expression expression)
 		{
 			var query = QueryBuilder.Build(expression);
-			return Connection.Ex
+			var result = Connection.Query<TResult>(query);
+
+			return default(TResult);
 		}
 	}
 }

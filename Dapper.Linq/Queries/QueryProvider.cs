@@ -2,17 +2,21 @@
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using Dapper.Linq.Core;
 
 namespace Dapper.Linq.Queries
 {
 	public abstract class QueryProvider : IQueryProvider
 	{
 		public IDbConnection Connection { get; }
+		public IStorageContext Context { get; }
 
-		public QueryProvider(IDbConnection connection)
+		public QueryProvider(IStorageContext context)
 		{
-			Connection = connection ?? 
-				throw new ArgumentNullException(nameof(connection));
+			Context = context ?? 
+				throw new ArgumentNullException(nameof(context));
+
+			Connection = Context.ConfigureConnection();
 		}
 
 		public IQueryable CreateQuery(Expression expression)

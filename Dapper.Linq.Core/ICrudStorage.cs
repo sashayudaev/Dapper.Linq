@@ -1,11 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Dapper.Linq.Core
 {
 	public interface ICrudStorage
 	{
-		IQueryable<TEntity> Select<TEntity>()
+		IQueryable<TEntity> Select<TEntity>(Expression<Func<TEntity, bool>> expression = null)
 			where TEntity : class;
 		Task InsertAsync<TEntity>(TEntity entity)
 			where TEntity : class;
