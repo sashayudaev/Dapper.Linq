@@ -41,10 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ColumnAttribute.cs" />
+    <Compile Include="Attributes\CompositeKeyAttribute.cs" />
+    <Compile Include="Attributes\DialectAttribute.cs" />
+    <Compile Include="Attributes\KeyAttribute.cs" />
+    <Compile Include="Attributes\ProcedureParameterAttribute.cs" />
+    <Compile Include="Attributes\TableAttribute.cs" />
+    <Compile Include="IPredicate.cs" />
     <Compile Include="IQueryStorage.cs" />
     <Compile Include="ICrudStorage.cs" />
     <Compile Include="IStorageContext.cs" />
+    <Compile Include="PredicateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StorageType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -34,5 +34,8 @@ namespace Dapper.Linq.Queries
 
 		IEnumerator IEnumerable.GetEnumerator() =>
 			((IEnumerable)Provider.Execute(Expression)).GetEnumerator();
+
+		public override string ToString() =>
+			new QueryBuilder().Build(Expression);
 	}
 }

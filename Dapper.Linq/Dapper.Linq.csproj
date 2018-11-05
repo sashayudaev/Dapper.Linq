@@ -59,6 +59,10 @@
     <Compile Include="Context\PostgresContext.cs" />
     <Compile Include="Context\SqlServerContext.cs" />
     <Compile Include="Context\SybaseContext.cs" />
+    <Compile Include="Predicates\OrderByPredicate.cs" />
+    <Compile Include="Predicates\PredicateBase.cs" />
+    <Compile Include="Predicates\PredicateCollection.cs" />
+    <Compile Include="Predicates\WherePredicate.cs" />
     <Compile Include="Queries\DatabaseQueryProvider.cs" />
     <Compile Include="Queries\Query.cs" />
     <Compile Include="Queries\QueryBuilder.cs" />

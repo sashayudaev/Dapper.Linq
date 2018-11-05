@@ -8,8 +8,8 @@ namespace Dapper.Linq.Queries
 {
 	public abstract class QueryProvider : IQueryProvider
 	{
-		public IDbConnection Connection { get; }
 		public IStorageContext Context { get; }
+		public IDbConnection Connection { get; }
 
 		public QueryProvider(IStorageContext context)
 		{
