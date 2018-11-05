@@ -29,13 +29,14 @@ namespace Dapper.Linq.Queries
 					$"The method '{expression.Method.Name}' is not supported");
 			}
 
-			if(expression.Method.Name == "Where")
+			var method = expression.Method.Name;
+			if(method == "Where")
 			{
 				Predicates.Add(PredicateBase.Where(expression));
 				this.VisitNext(expression);
 			}
 
-			if (expression.Method.Name == "OrderBy")
+			if (method == "OrderBy")
 			{
 				Predicates.Add(PredicateBase.OrderBy(expression));
 				this.VisitNext(expression);

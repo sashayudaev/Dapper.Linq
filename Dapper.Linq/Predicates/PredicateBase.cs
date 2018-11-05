@@ -25,6 +25,8 @@ namespace Dapper.Linq.Predicates
 			new WherePredicate(expression);
 		public static IPredicate OrderBy(MethodCallExpression expression) =>
 			new OrderByPredicate(expression);
+		public static IPredicate OrderByDescending(MethodCallExpression expression) =>
+			new OrderByPredicate(expression, descending: true);
 
 		public string BuildQuery(StringBuilder query)
 		{
@@ -108,13 +110,14 @@ namespace Dapper.Linq.Predicates
 				$"The member '{member.Member.Name}' is not supported");
 		}
 
-		protected static Expression StripQuotes(Expression e)
+		protected static TExpression RemoveQuote<TExpression>(Expression expression)
+			where TExpression : Expression
 		{
-			while (e.NodeType == ExpressionType.Quote)
+			while (expression.NodeType == ExpressionType.Quote)
 			{
-				e = ((UnaryExpression)e).Operand;
+				expression = ((UnaryExpression)expression).Operand;
 			}
-			return e;
+			return (TExpression) expression;
 		}
 
 		private void VisitOperation(BinaryExpression binary)
