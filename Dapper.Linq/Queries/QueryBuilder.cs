@@ -56,7 +56,7 @@ namespace Dapper.Linq.Queries
 		}
 
 		private static bool IsQueryable(MethodCallExpression expression) =>
-			expression.Method.DeclaringType == typeof(Queryable);
+			typeof(Queryable).IsAssignableFrom(expression.Method.DeclaringType);
 
 		private static bool IsPredicate(string name, out PredicateType type) =>
 			EnumHelper.TryGetFromDescription(name, out type);

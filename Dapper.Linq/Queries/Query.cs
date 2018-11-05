@@ -25,14 +25,17 @@ namespace Dapper.Linq.Queries
 				throw new ArgumentNullException(nameof(provider));
 		}
 
-		IEnumerator<TEntity> GetEnumerator() =>
-		 ((IEnumerable<TEntity>)Provider.Execute<TEntity>(Expression)).GetEnumerator();
+		public IEnumerator<TEntity> GetEnumerator()
+		{
+			return (
+			 (IEnumerable<TEntity>)Provider.Execute(Expression)).GetEnumerator();
+		}
 
-		IEnumerator<TEntity> IEnumerable<TEntity>.GetEnumerator() =>
-			this.GetEnumerator();
-
-		IEnumerator IEnumerable.GetEnumerator() =>
-			((IEnumerable)Provider.Execute(Expression)).GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return (
+			  (IEnumerable)Provider.Execute(Expression)).GetEnumerator();
+		}
 
 		public override string ToString() =>
 			new QueryBuilder().Build(Expression);

@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Dapper.Linq.Core;
 
 namespace Dapper.Linq.Queries
@@ -14,12 +13,12 @@ namespace Dapper.Linq.Queries
 			QueryBuilder = new QueryBuilder();
 		}
 
-		public override TResult Execute<TResult>(Expression expression)
+		public override object Execute<TEntity>(Expression expression)
 		{
 			var query = QueryBuilder.Build(expression);
-			var result = Connection.Query<TResult>(query);
+			var result = Connection.Query(typeof(TEntity), query);
 
-			return default(TResult);
+			return result;
 		}
 	}
 }

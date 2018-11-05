@@ -117,7 +117,7 @@ namespace Dapper.Linq.Predicates
 				$"The member '{member.Member.Name}' is not supported");
 		}
 
-		protected static TExpression RemoveQuote<TExpression>(Expression expression)
+		protected static TExpression Convert<TExpression>(Expression expression)
 			where TExpression : Expression
 		{
 			while (expression.NodeType == ExpressionType.Quote)

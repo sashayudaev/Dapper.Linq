@@ -76,9 +76,16 @@ namespace Dapper.Linq.Queries
 		public IQueryable<TEntity> CreateQuery<TEntity>(Expression expression) =>
 			new Query<TEntity>(this, expression);
 
-		public object Execute(Expression expression) =>
-			this.Execute<object>(expression);
+		TEntity IQueryProvider.Execute<TEntity>(Expression expression)
+		{
+			return (TEntity)this.Execute<TEntity>(expression);
+		}
 
-		public abstract TResult Execute<TResult>(Expression expression);
+		object IQueryProvider.Execute(Expression expression)
+		{
+			return this.Execute<object>(expression);
+		}
+
+		public abstract object Execute<TEntity>(Expression expression);
 	}
 }

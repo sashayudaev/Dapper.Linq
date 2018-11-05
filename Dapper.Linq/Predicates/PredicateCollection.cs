@@ -20,8 +20,14 @@ namespace Dapper.Linq.Predicates
 				
 		}
 
-		public void Add(IPredicate predicate) =>
-			this.Add(predicate.PredicateType, predicate);
+		public void Add(IPredicate predicate)
+		{
+			var key = predicate.PredicateType;
+			if(!this.ContainsKey(key))
+			{
+				this.Add(key, predicate);
+			}
+		}
 
 		public string BuildQuery() =>
 			this.BuildQuery(new StringBuilder());

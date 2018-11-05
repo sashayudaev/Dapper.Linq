@@ -29,7 +29,7 @@ namespace Dapper.Linq.Predicates
 			Query.Append(" ORDER BY ");
 			var argument = expression.Arguments[1];
 
-			var lambda = RemoveQuote<LambdaExpression>(argument);
+			var lambda = Convert<LambdaExpression>(argument);
 			this.Visit(lambda.Body);
 
 			if(Descending)

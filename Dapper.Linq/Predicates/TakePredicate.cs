@@ -19,7 +19,7 @@ namespace Dapper.Linq.Predicates
 		protected override Expression VisitMethodCall(MethodCallExpression expression)
 		{
 			var argument = expression.Arguments[1];
-			var constant = RemoveQuote<ConstantExpression>(argument);
+			var constant = Convert<ConstantExpression>(argument);
 
 			Query.Append($" LIMIT {constant.Value}");
 			return expression;
