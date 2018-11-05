@@ -1,7 +1,7 @@
 ﻿using System.Data;
-using Dapper.Storage.Core;
+using Dapper.Linq.Core;
 
-namespace Dapper.Storage.Context
+namespace Dapper.Linq.Context
 {
 	public class SybaseContext : IStorageContext
 	{
