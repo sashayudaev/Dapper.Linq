@@ -63,6 +63,8 @@
     <Compile Include="Predicates\OrderByPredicate.cs" />
     <Compile Include="Predicates\PredicateBase.cs" />
     <Compile Include="Predicates\PredicateCollection.cs" />
+    <Compile Include="Predicates\SelectPredicate.cs" />
+    <Compile Include="Predicates\TakePredicate.cs" />
     <Compile Include="Predicates\WherePredicate.cs" />
     <Compile Include="Queries\DatabaseQueryProvider.cs" />
     <Compile Include="Queries\Query.cs" />

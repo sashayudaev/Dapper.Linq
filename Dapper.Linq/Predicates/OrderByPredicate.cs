@@ -10,12 +10,15 @@ namespace Dapper.Linq.Predicates
 
 		public bool Descending { get; }
 
-		public OrderByPredicate(MethodCallExpression expression)
+		public new MethodCallExpression Expression =>
+			(MethodCallExpression)base.Expression;
+
+		public OrderByPredicate(Expression expression)
 			: this(expression, false)
 		{
 
 		}
-		public OrderByPredicate(MethodCallExpression expression, bool descending)
+		public OrderByPredicate(Expression expression, bool descending)
 			: base(expression)
 		{
 			Descending = descending;

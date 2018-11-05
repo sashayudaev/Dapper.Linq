@@ -13,26 +13,28 @@ namespace Dapper.Linq.Predicates
 
 		public abstract PredicateType PredicateType { get; }
 
-		public MethodCallExpression Expression { get; }
+		public Expression Expression { get; }
 
-		public PredicateBase(MethodCallExpression expression)
+		public PredicateBase(Expression expression)
 		{
 			Expression = expression ?? 
 				throw new ArgumentNullException(nameof(expression));
 		}
 
-		public static IPredicate Create(PredicateType type, MethodCallExpression method)
+		public static IPredicate Create(PredicateType type, Expression expression)
 		{
 			switch (type)
 			{
-				case PredicateType.Where:
-					return new WherePredicate(method);
-				case PredicateType.OrderBy:
-					return new OrderByPredicate(method);
-				case PredicateType.OrderByDescending:
-					return new OrderByPredicate(method, descending: true);
 				case PredicateType.Select:
+					return new SelectPredicate(expression);
+				case PredicateType.Where:
+					return new WherePredicate(expression);
+				case PredicateType.OrderBy:
+					return new OrderByPredicate(expression);
+				case PredicateType.OrderByDescending:
+					return new OrderByPredicate(expression, descending: true);
 				case PredicateType.Take:
+					return new TakePredicate(expression);
 				default:
 					throw new InvalidOperationException(
 						$"Predicate {type} does not exists");
@@ -75,13 +77,7 @@ namespace Dapper.Linq.Predicates
 
 		protected override Expression VisitConstant(ConstantExpression constant)
 		{
-			if (constant.Value is IQueryable queryable)
-			{
-				// assume constant nodes w/ IQueryables are table references
-				Query.Append("SELECT * FROM ");
-				Query.Append(queryable.ElementType.Name);
-			}
-			else if (constant.Value == null)
+			if (constant.Value == null)
 			{
 				Query.Append("NULL");
 			}

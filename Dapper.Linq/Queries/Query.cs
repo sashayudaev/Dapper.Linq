@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace Dapper.Linq.Queries
 {
 	public class Query<TEntity> : 
-		IQueryable<TEntity>, IOrderedQueryable<TEntity>,
-		IOrderedQueryable, IQueryable, 
-		IEnumerable<TEntity>, IEnumerable
+		IQueryable<TEntity>, IQueryable,
+		IEnumerable<TEntity>, IEnumerable,
+		IOrderedQueryable<TEntity>, IOrderedQueryable
 	{
 		public Expression Expression { get; }
 		public IQueryProvider Provider { get; }

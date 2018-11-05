@@ -3,28 +3,25 @@ using Dapper.Linq.Core;
 
 namespace Dapper.Linq.Predicates
 {
-	public class WherePredicate : PredicateBase
+	public class TakePredicate : PredicateBase
 	{
-		public override PredicateType PredicateType =>
-			PredicateType.Where;
+		public override PredicateType PredicateType { get; } =
+			PredicateType.Take;
 
 		public new MethodCallExpression Expression =>
 			(MethodCallExpression)base.Expression;
 
-		public WherePredicate(Expression expression)
-			:base(expression)
+		public TakePredicate(Expression expression)
+			: base(expression)
 		{
-
 		}
 
 		protected override Expression VisitMethodCall(MethodCallExpression expression)
 		{
-			Query.Append(" WHERE ");
-
 			var argument = expression.Arguments[1];
-			var lambda = RemoveQuote<LambdaExpression>(argument);
-			this.Visit(lambda.Body);
+			var constant = RemoveQuote<ConstantExpression>(argument);
 
+			Query.Append($" LIMIT {constant.Value}");
 			return expression;
 		}
 	}

@@ -6,11 +6,8 @@ namespace Dapper.Linq.Predicates
 {
 	public class PredicateCollection : SortedList<PredicateType, IPredicate>, IPredicate
 	{
-		private bool HasSelectQuery =>
-			this.TryGetValue(PredicateType.Select, out _);
-
-		public PredicateType PredicateType { get; } =
-			PredicateType.Select;
+		public PredicateType PredicateType =>
+			throw new KeyNotFoundException();
 
 		public PredicateCollection()
 		{
@@ -31,11 +28,6 @@ namespace Dapper.Linq.Predicates
 
 		public string BuildQuery(StringBuilder query)
 		{
-			if(!HasSelectQuery)
-			{
-				query.Append("SELECT * FROM Table");
-			}
-
 			foreach (var predicate in Values)
 			{
 				var updated = predicate.BuildQuery(query);
