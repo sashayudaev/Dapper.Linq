@@ -5,20 +5,19 @@ namespace Dapper.Linq.Queries
 {
 	public class DatabaseQueryProvider : QueryProvider
 	{
-		public QueryBuilder QueryBuilder { get; }
-
 		public DatabaseQueryProvider(IStorageContext context) 
 			: base(context)
 		{
-			QueryBuilder = new QueryBuilder();
 		}
 
-		public override object Execute<TEntity>(Expression expression)
+		public override TEntity Execute<TEntity>(Expression expression)
 		{
-			var query = QueryBuilder.Build(expression);
-			var result = Connection.Query(typeof(TEntity), query);
+			var queryBuilder = new QueryBuilder(typeof(TEntity));
 
-			return result;
+			var query = queryBuilder.Build(expression);
+			var result = Connection.Query<TEntity>(query);
+
+			return (TEntity) result;
 		}
 	}
 }

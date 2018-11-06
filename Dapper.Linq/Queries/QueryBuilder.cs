@@ -12,6 +12,20 @@ namespace Dapper.Linq.Queries
 		public PredicateCollection Predicates { get; } =
 			new PredicateCollection();
 
+		public QueryBuilder(Type entity)
+		{
+			this.AddSelectPredicate(entity);
+		}
+
+		private void AddSelectPredicate(Type entity)
+		{
+			var predicate = PredicateBase.Create(
+					PredicateType.Select,
+					Expression.Constant(entity));
+
+			Predicates.Add(predicate);
+		}
+
 		public string Build(Expression expression)
 		{
 			this.Visit(expression);
@@ -41,19 +55,19 @@ namespace Dapper.Linq.Queries
 			return expression;
 		}
 
-		protected override Expression VisitConstant(ConstantExpression constant)
-		{
-			if (constant.Value is IQueryable queryable)
-			{
-				var predicate = PredicateBase.Create(
-					PredicateType.Select,
-					constant);
+		//protected override Expression VisitConstant(ConstantExpression constant)
+		//{
+		//	if (constant.Value is IQueryable queryable)
+		//	{
+		//		var predicate = PredicateBase.Create(
+		//			PredicateType.Select,
+		//			constant);
 
-				Predicates.Add(predicate);
-			}
+		//		Predicates.Add(predicate);
+		//	}
 
-			return constant;
-		}
+		//	return constant;
+		//}
 
 		private static bool IsQueryable(MethodCallExpression expression) =>
 			typeof(Queryable).IsAssignableFrom(expression.Method.DeclaringType);

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using Dapper.Linq.Core;
 
@@ -20,9 +21,9 @@ namespace Dapper.Linq.Predicates
 
 		protected override Expression VisitConstant(ConstantExpression constant)
 		{
-			if(constant.Value is IQueryable queryable)
+			if(constant.Value is Type entity)
 			{
-				var table = queryable.ElementType.Name;
+				var table = entity.Name;
 				Query.Append($"SELECT * FROM public.{table}");
 			}
 			return constant;
