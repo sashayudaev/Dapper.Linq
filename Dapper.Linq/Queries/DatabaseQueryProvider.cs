@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Dapper.Linq.Core;
+using Dapper.Linq.Tokens;
 
 namespace Dapper.Linq.Queries
 {
@@ -12,10 +13,9 @@ namespace Dapper.Linq.Queries
 
 		public override TEntity Execute<TEntity>(Expression expression)
 		{
-			var queryBuilder = new QueryBuilder(typeof(TEntity));
-
-			var query = queryBuilder.Build(expression);
-			var result = Connection.Query<TEntity>(query);
+			var query = new QueryToken(typeof(TEntity));
+			query.Build(expression);
+			var result = Connection.Query<TEntity>(query.Value);
 
 			return (TEntity) result;
 		}

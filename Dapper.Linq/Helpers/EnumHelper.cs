@@ -45,5 +45,10 @@ namespace Dapper.Linq.Helpers
 			return attribute != null
 				? attribute.Description : name;
 		}
+
+		//TODO: Change to "OrdinalEquals"
+		public static bool OrdinalEquals<TEnum>(this TEnum source, string other)
+			where TEnum : struct =>
+			source.GetDescription().Equals(other);
 	}
 }

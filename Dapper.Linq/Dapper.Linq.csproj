@@ -60,18 +60,25 @@
     <Compile Include="Context\SqlServerContext.cs" />
     <Compile Include="Context\SybaseContext.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
-    <Compile Include="Predicates\OrderByPredicate.cs" />
-    <Compile Include="Predicates\PredicateBase.cs" />
-    <Compile Include="Predicates\PredicateCollection.cs" />
-    <Compile Include="Predicates\SelectPredicate.cs" />
-    <Compile Include="Predicates\TakePredicate.cs" />
-    <Compile Include="Predicates\WherePredicate.cs" />
+    <Compile Include="Tokens\PredicateCollection.cs" />
     <Compile Include="Queries\DatabaseQueryProvider.cs" />
     <Compile Include="Queries\Query.cs" />
-    <Compile Include="Queries\QueryBuilder.cs" />
     <Compile Include="Queries\QueryProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage.cs" />
+    <Compile Include="Tokens\Abstractions\ExpressionToken.cs" />
+    <Compile Include="Tokens\BinaryToken.cs" />
+    <Compile Include="Tokens\ConstantToken.cs" />
+    <Compile Include="Tokens\OperationToken.cs" />
+    <Compile Include="Tokens\Abstractions\PredicateToken.cs" />
+    <Compile Include="Tokens\OrderByToken.cs" />
+    <Compile Include="Tokens\PropertyToken.cs" />
+    <Compile Include="Tokens\QueryToken.cs" />
+    <Compile Include="Tokens\SelectToken.cs" />
+    <Compile Include="Tokens\TakeToken.cs" />
+    <Compile Include="Tokens\Abstractions\TokenBase.cs" />
+    <Compile Include="Tokens\UnaryToken.cs" />
+    <Compile Include="Tokens\WhereToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dapper.Linq.Core\Dapper.Linq.Core.csproj">

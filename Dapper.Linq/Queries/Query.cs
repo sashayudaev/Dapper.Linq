@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Dapper.Linq.Tokens;
 
 namespace Dapper.Linq.Queries
 {
@@ -33,7 +34,12 @@ namespace Dapper.Linq.Queries
 			((IEnumerable)Provider.Execute(Expression)).GetEnumerator();
 		
 
-		public override string ToString() =>
-			new QueryBuilder(ElementType).Build(Expression);
+		public override string ToString()
+		{
+			var query = new QueryToken(ElementType);
+			query.Build(Expression);
+
+			return query.Value;
+		}
 	}
 }

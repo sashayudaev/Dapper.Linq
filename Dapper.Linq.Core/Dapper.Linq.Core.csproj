@@ -44,6 +44,10 @@
     <Compile Include="Attributes\ColumnAttribute.cs" />
     <Compile Include="Attributes\CompositeKeyAttribute.cs" />
     <Compile Include="Attributes\DialectAttribute.cs" />
+    <Compile Include="IQueryBuilder.cs" />
+    <Compile Include="Tokens\IExpressionToken.cs" />
+    <Compile Include="Tokens\IPredicateToken.cs" />
+    <Compile Include="Tokens\IToken.cs" />
     <Compile Include="Attributes\KeyAttribute.cs" />
     <Compile Include="Attributes\ProcedureParameterAttribute.cs" />
     <Compile Include="Attributes\TableAttribute.cs" />

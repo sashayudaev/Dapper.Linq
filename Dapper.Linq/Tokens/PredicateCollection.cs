@@ -1,13 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Dapper.Linq.Core;
+using Dapper.Linq.Core.Tokens;
 
-namespace Dapper.Linq.Predicates
+namespace Dapper.Linq.Tokens
 {
-	public class PredicateCollection : SortedList<PredicateType, IPredicate>, IPredicate
+	public class PredicateCollection : SortedList<PredicateType, IPredicateToken>, IToken
 	{
 		public PredicateType PredicateType =>
 			throw new KeyNotFoundException();
+
+		public bool IsValid => true;
+
+		public string Value =>
+			this.BuildQuery();
 
 		public PredicateCollection()
 		{
@@ -20,7 +26,7 @@ namespace Dapper.Linq.Predicates
 				
 		}
 
-		public void Add(IPredicate predicate)
+		public void Add(IPredicateToken predicate)
 		{
 			var key = predicate.PredicateType;
 			if(!this.ContainsKey(key))
@@ -29,15 +35,13 @@ namespace Dapper.Linq.Predicates
 			}
 		}
 
-		public string BuildQuery() =>
-			this.BuildQuery(new StringBuilder());
-
-		public string BuildQuery(StringBuilder query)
+		public string BuildQuery()
 		{
-			foreach (var predicate in Values)
+			var query = new StringBuilder();
+
+			foreach (var token in Values)
 			{
-				var updated = predicate.BuildQuery(query);
-				query.Append(updated);
+				query.Append(token.Value);
 			}
 
 			return query.ToString();

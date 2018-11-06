@@ -2,39 +2,37 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Dapper.Linq.Core;
+using Dapper.Linq.Core.Tokens;
 using Dapper.Linq.Helpers;
-using Dapper.Linq.Predicates;
+using Dapper.Linq.Tokens.Abstractions;
 
-namespace Dapper.Linq.Queries
+namespace Dapper.Linq.Tokens
 {
-	public class QueryBuilder : ExpressionVisitor
+	public class QueryToken : ExpressionVisitor, IQueryBuilder, IToken
 	{
+		public bool IsValid => true;
+
+		public string Value =>
+			Predicates.Value;
+
 		public PredicateCollection Predicates { get; } =
 			new PredicateCollection();
 
-		public QueryBuilder(Type entity)
+		public QueryToken(Type entity)
 		{
 			this.AddSelectPredicate(entity);
 		}
 
-		private void AddSelectPredicate(Type entity)
-		{
-			var predicate = PredicateBase.Create(
-					PredicateType.Select,
-					Expression.Constant(entity));
-
-			Predicates.Add(predicate);
-		}
-
-		public string Build(Expression expression)
+		#region IQueryBuilder
+		public void Build(Expression expression)
 		{
 			this.Visit(expression);
-			return Predicates.BuildQuery();
 		}
+		#endregion
 
 		protected override Expression VisitMethodCall(MethodCallExpression expression)
 		{
-			if(!IsQueryable(expression))
+			if (!IsQueryable(expression))
 			{
 				throw new NotSupportedException(
 					$"The method '{expression.Method.Name}' is not supported. " +
@@ -42,10 +40,10 @@ namespace Dapper.Linq.Queries
 			}
 
 			var method = expression.Method.Name;
-			if(IsPredicate(method, out var predicateType))
+			if (IsPredicate(method, out var predicateType))
 			{
-				var predicate = PredicateBase.Create(
-					predicateType, 
+				var predicate = PredicateToken.Create(
+					predicateType,
 					expression);
 
 				Predicates.Add(predicate);
@@ -55,25 +53,17 @@ namespace Dapper.Linq.Queries
 			return expression;
 		}
 
-		//protected override Expression VisitConstant(ConstantExpression constant)
-		//{
-		//	if (constant.Value is IQueryable queryable)
-		//	{
-		//		var predicate = PredicateBase.Create(
-		//			PredicateType.Select,
-		//			constant);
-
-		//		Predicates.Add(predicate);
-		//	}
-
-		//	return constant;
-		//}
-
 		private static bool IsQueryable(MethodCallExpression expression) =>
 			typeof(Queryable).IsAssignableFrom(expression.Method.DeclaringType);
 
 		private static bool IsPredicate(string name, out PredicateType type) =>
 			EnumHelper.TryGetFromDescription(name, out type);
+
+		private void AddSelectPredicate(Type entity)
+		{
+			var select = new SelectToken(entity);
+			Predicates.Add(select);
+		}
 
 		private void VisitNext(MethodCallExpression expression) =>
 			this.Visit(expression.Arguments[0]);
