@@ -13,9 +13,10 @@ namespace Dapper.Linq.Queries
 
 		public override TEntity Execute<TEntity>(Expression expression)
 		{
-			var query = new QueryToken(typeof(TEntity));
-			query.Build(expression);
-			var result = Connection.Query<TEntity>(query.Value);
+			var queryBuilder = new QueryBuilder(typeof(TEntity));
+
+			var query = queryBuilder.Build(expression);
+			var result = Connection.Query<TEntity>(query);
 
 			return (TEntity) result;
 		}

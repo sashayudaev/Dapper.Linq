@@ -34,12 +34,7 @@ namespace Dapper.Linq.Queries
 			((IEnumerable)Provider.Execute(Expression)).GetEnumerator();
 		
 
-		public override string ToString()
-		{
-			var query = new QueryToken(ElementType);
-			query.Build(Expression);
-
-			return query.Value;
-		}
+		public override string ToString() =>
+			new QueryBuilder(ElementType).Build(Expression);
 	}
 }

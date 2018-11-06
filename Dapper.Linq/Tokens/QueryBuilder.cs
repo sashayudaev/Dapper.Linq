@@ -2,31 +2,26 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Dapper.Linq.Core;
-using Dapper.Linq.Core.Tokens;
 using Dapper.Linq.Helpers;
 using Dapper.Linq.Tokens.Abstractions;
 
 namespace Dapper.Linq.Tokens
 {
-	public class QueryToken : ExpressionVisitor, IQueryBuilder, IToken
+	public class QueryBuilder : ExpressionVisitor, IQueryBuilder
 	{
-		public bool IsValid => true;
-
-		public string Value =>
-			Predicates.Value;
-
 		public PredicateCollection Predicates { get; } =
 			new PredicateCollection();
 
-		public QueryToken(Type entity)
+		public QueryBuilder(Type entity)
 		{
 			this.AddSelectPredicate(entity);
 		}
 
 		#region IQueryBuilder
-		public void Build(Expression expression)
+		public string Build(Expression expression)
 		{
 			this.Visit(expression);
+			return Predicates.Value;
 		}
 		#endregion
 
