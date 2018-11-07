@@ -56,9 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\AttributeEntityMapper.cs" />
+    <Compile Include="Mappers\AttributeEntityMapper.cs" />
     <Compile Include="Configuration\DapperConfiguration.cs" />
-    <Compile Include="Configuration\EntityMapperCollection.cs" />
+    <Compile Include="Mappers\EntityMapperCollection.cs" />
     <Compile Include="Context\PostgresContext.cs" />
     <Compile Include="Context\SqlServerContext.cs" />
     <Compile Include="Context\SybaseContext.cs" />

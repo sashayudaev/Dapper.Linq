@@ -1,5 +1,7 @@
 ﻿using System;
+using Dapper.Linq.Mappers;
 using Dapper.Linq.Core.Configuration;
+using Dapper.Linq.Core.Mappers;
 
 namespace Dapper.Linq.Configuration
 {
@@ -21,5 +23,11 @@ namespace Dapper.Linq.Configuration
 			Dialect = dialect;
 			return this;
 		}
+
+		public static IEntityMapper GetMapper(Type entity) =>
+			EntityMappers.GetOrCreate(entity);
+
+		private static readonly EntityMapperCollection EntityMappers =
+			new EntityMapperCollection();
 	}
 }

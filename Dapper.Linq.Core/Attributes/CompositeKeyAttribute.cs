@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dapper.Storage.Attributes
+namespace Dapper.Linq.Attributes
 {
 	public class CompositeKeyAttribute : Attribute
 	{

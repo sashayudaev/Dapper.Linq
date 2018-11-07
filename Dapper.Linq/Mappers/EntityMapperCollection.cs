@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using Dapper.Linq.Core.Configuration;
+using Dapper.Linq.Configuration;
+using Dapper.Linq.Core.Mappers;
 
-namespace Dapper.Linq.Configuration
+namespace Dapper.Linq.Mappers
 {
 	public class EntityMapperCollection : ConcurrentDictionary<Type, IEntityMapper>
 	{
@@ -12,7 +13,6 @@ namespace Dapper.Linq.Configuration
 			{
 				this.Add(entity);
 			}
-
 			return this[entity];
 		}
 
@@ -22,7 +22,9 @@ namespace Dapper.Linq.Configuration
 				.EntityMapper
 				.MakeGenericType(entity);
 
-			var mapper = (IEntityMapper) Activator.CreateInstance(mapperType);
+			var mapper = Activator.CreateInstance(mapperType)
+				as IEntityMapper;
+
 			this.TryAdd(entity, mapper);
 		}
 	}

@@ -45,10 +45,14 @@
     <Compile Include="Attributes\CompositeKeyAttribute.cs" />
     <Compile Include="Attributes\DialectAttribute.cs" />
     <Compile Include="Configuration\IDapperConfiguration.cs" />
-    <Compile Include="Configuration\IEntityMapper.cs" />
+    <Compile Include="Mappers\EntityMapper.cs" />
+    <Compile Include="Mappers\IEntityMapper.cs" />
+    <Compile Include="Mappers\IPropertyMapper.cs" />
     <Compile Include="Configuration\ISqlDialect.cs" />
     <Compile Include="Configuration\SqlDialectBase.cs" />
     <Compile Include="IQueryBuilder.cs" />
+    <Compile Include="Mappers\KeyType.cs" />
+    <Compile Include="Mappers\PropertyMapper.cs" />
     <Compile Include="Tokens\IExpressionToken.cs" />
     <Compile Include="Tokens\IPredicateToken.cs" />
     <Compile Include="Tokens\IToken.cs" />
