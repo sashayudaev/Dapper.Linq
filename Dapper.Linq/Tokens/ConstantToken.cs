@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Tokens.Abstractions;
 
 namespace Dapper.Linq.Tokens
@@ -25,8 +26,8 @@ namespace Dapper.Linq.Tokens
 			}
 		}
 
-		public ConstantToken(ConstantExpression expression) 
-			: base(expression)
+		public ConstantToken(ConstantExpression expression, IEntityMapper mapper) 
+			: base(expression, mapper)
 		{
 		}
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dapper.Linq.Attributes
+namespace Dapper.Linq.Core.Attributes
 {
 	public class ColumnAttribute : Attribute
 	{

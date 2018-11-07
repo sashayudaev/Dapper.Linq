@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Tokens.Abstractions;
 
 namespace Dapper.Linq.Tokens
@@ -12,8 +13,8 @@ namespace Dapper.Linq.Tokens
 		public override string Value =>
 			this.ResolveOperation();
 
-		public OperationToken(BinaryExpression expression) 
-			: base(expression)
+		public OperationToken(BinaryExpression expression, IEntityMapper mapper) 
+			: base(expression, mapper)
 		{
 		}
 

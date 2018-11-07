@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Tokens.Abstractions;
 
 namespace Dapper.Linq.Tokens
@@ -10,8 +11,8 @@ namespace Dapper.Linq.Tokens
 		public Expression Right=>
 			Expression.Right;
 
-		public BinaryToken(BinaryExpression expression) 
-			: base(expression)
+		public BinaryToken(BinaryExpression expression, IEntityMapper mapper) 
+			: base(expression, mapper)
 		{
 		}
 

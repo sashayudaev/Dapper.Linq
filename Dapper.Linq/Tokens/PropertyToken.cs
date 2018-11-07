@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Tokens.Abstractions;
 
 namespace Dapper.Linq.Tokens
@@ -11,7 +12,7 @@ namespace Dapper.Linq.Tokens
 			Expression.NodeType == ExpressionType.MemberAccess;
 
 		public string PropertyName =>
-			Expression.Member.Name;
+			Mapper.GetProperty(Expression.Member.Name).ColumnName;
 
 		public override string Value
 		{
@@ -27,8 +28,8 @@ namespace Dapper.Linq.Tokens
 			}
 		}
 
-		public PropertyToken(MemberExpression expression)
-			:base(expression)
+		public PropertyToken(MemberExpression expression, IEntityMapper mapper)
+			:base(expression, mapper)
 		{
 		}
 	}

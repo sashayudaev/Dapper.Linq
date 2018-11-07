@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Dapper.Linq.Core;
+using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Core.Tokens;
 using Dapper.Linq.Helpers;
 
@@ -17,23 +18,26 @@ namespace Dapper.Linq.Tokens.Abstractions
 
 		public abstract PredicateType PredicateType { get; }
 
-		public PredicateToken(MethodCallExpression expression)
-			:base(expression)
+		public PredicateToken(MethodCallExpression expression, IEntityMapper mapper)
+			:base(expression, mapper)
 		{
 		}
 
-		public static IPredicateToken Create(PredicateType type, MethodCallExpression expression)
+		public static IPredicateToken Create(
+			PredicateType type,
+			IEntityMapper mapper,
+			MethodCallExpression expression)
 		{
 			switch (type)
 			{
 				case PredicateType.Where:
-					return new WhereToken(expression);
+					return new WhereToken(expression, mapper);
 				case PredicateType.OrderBy:
-					return new OrderByToken(expression);
+					return new OrderByToken(expression, mapper);
 				case PredicateType.OrderByDescending:
-					return new OrderByToken(expression, descending: true);
+					return new OrderByToken(expression, mapper, descending: true);
 				case PredicateType.Take:
-					return new TakeToken(expression);
+					return new TakeToken(expression, mapper);
 				case PredicateType.Select:
 				default:
 					throw new InvalidOperationException(

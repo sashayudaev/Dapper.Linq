@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Dapper.Linq.Core;
+using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Tokens.Abstractions;
 
 namespace Dapper.Linq.Tokens
@@ -31,14 +32,14 @@ namespace Dapper.Linq.Tokens
 			}
 		}
 
-		public OrderByToken(MethodCallExpression expression)
-			: this(expression, descending: false)
+		public OrderByToken(MethodCallExpression expression, IEntityMapper mapper)
+			: this(expression, mapper, descending: false)
 		{
 
 		}
 
-		public OrderByToken(MethodCallExpression expression, bool descending) 
-			: base(expression)
+		public OrderByToken(MethodCallExpression expression, 
+			IEntityMapper mapper, bool descending) : base(expression, mapper)
 		{
 			Descending = descending;
 		}

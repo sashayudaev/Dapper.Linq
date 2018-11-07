@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Tokens.Abstractions;
 
 namespace Dapper.Linq.Tokens
@@ -11,8 +12,8 @@ namespace Dapper.Linq.Tokens
 		public ExpressionType Operation =>
 			Expression.NodeType;
 
-		public UnaryToken(UnaryExpression expression) 
-			: base(expression)
+		public UnaryToken(UnaryExpression expression, IEntityMapper mapper) 
+			: base(expression, mapper)
 		{
 		}
 

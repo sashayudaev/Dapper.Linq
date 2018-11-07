@@ -12,9 +12,12 @@ namespace Dapper.Linq.Core.Mappers
 		public string TableName { get; private set; }
 		public string SchemaName { get; private set; }
 
+		public IDictionary<string, IPropertyMapper> Properties { get; }
+
 		public EntityMapper()
 		{
 			EntityType = typeof(TEntity);
+			Properties = new Dictionary<string, IPropertyMapper>();
 		}
 
 		public void Table(string table)
@@ -32,12 +35,12 @@ namespace Dapper.Linq.Core.Mappers
 		public virtual IPropertyMapper Map(PropertyInfo property)
 		{
 			var propertyMapper = new PropertyMapper(property);
-			Mappers.Add(propertyMapper);
+			Properties.Add(property.Name, propertyMapper);
 
 			return propertyMapper;
 		}
 
-		private readonly IList<IPropertyMapper> Mappers =
-			new List<IPropertyMapper>();
+		public IPropertyMapper GetProperty(string name) =>
+			Properties[name];
 	}
 }

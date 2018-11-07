@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Dapper.Linq.Core;
+using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Tokens.Abstractions;
 
 namespace Dapper.Linq.Tokens
@@ -23,8 +24,8 @@ namespace Dapper.Linq.Tokens
 			}
 		}
 
-		public WhereToken(MethodCallExpression expression) 
-			: base(expression)
+		public WhereToken(MethodCallExpression expression, IEntityMapper mapper) 
+			: base(expression, mapper)
 		{
 		}
 	}

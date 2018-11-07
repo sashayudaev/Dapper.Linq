@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Text;
+using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Core.Tokens;
 
 namespace Dapper.Linq.Tokens.Abstractions
@@ -15,37 +16,39 @@ namespace Dapper.Linq.Tokens.Abstractions
 		public StringBuilder Query { get; }
 
 		public abstract string Value { get; }
+		public IEntityMapper Mapper { get; }
 		public TExpression Expression { get; }
 
-		public ExpressionToken(TExpression expression)
+		public ExpressionToken(TExpression expression, IEntityMapper mapper)
 		{
+			Mapper = mapper;
 			Expression = expression;
 			Query = new StringBuilder();
 		}
 
 		protected override Expression VisitUnary(UnaryExpression expression) =>
 			this.VisitExpression(
-				new UnaryToken(expression), 
+				new UnaryToken(expression, Mapper), 
 				expression);
 
 		protected override Expression VisitBinary(BinaryExpression expression) =>
 			this.VisitExpression(
-				new BinaryToken(expression), 
+				new BinaryToken(expression, Mapper), 
 				expression);
 
 		protected override Expression VisitConstant(ConstantExpression expression) =>
 			this.VisitExpression(
-				new ConstantToken(expression), 
+				new ConstantToken(expression, Mapper), 
 				expression);
 
 		protected override Expression VisitMember(MemberExpression expression) =>
 			this.VisitExpression(
-				new PropertyToken(expression), 
+				new PropertyToken(expression, Mapper), 
 				expression);
 
 		protected void VisitOperation(BinaryExpression expression)
 		{
-			var operation = new OperationToken(expression);
+			var operation = new OperationToken(expression, Mapper);
 			Query.Append(operation.Value);
 		}
 

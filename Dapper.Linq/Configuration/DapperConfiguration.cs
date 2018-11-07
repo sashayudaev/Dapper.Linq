@@ -8,7 +8,7 @@ namespace Dapper.Linq.Configuration
 	public class DapperConfiguration : IDapperConfiguration
 	{
 		public static Type EntityMapper { get; private set; }
-		public static ISqlDialect Dialect { get; private set; }
+		public ISqlDialect Dialect { get; private set; }
 
 		public static IDapperConfiguration Create() =>
 			new DapperConfiguration();
@@ -23,7 +23,8 @@ namespace Dapper.Linq.Configuration
 			Dialect = dialect;
 			return this;
 		}
-
+		public static IEntityMapper GetMapper<TEntity>() =>
+			EntityMappers.GetOrCreate(typeof(TEntity));
 		public static IEntityMapper GetMapper(Type entity) =>
 			EntityMappers.GetOrCreate(entity);
 

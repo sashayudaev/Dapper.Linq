@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Dapper.Linq.Core;
+using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Helpers;
 using Dapper.Linq.Tokens;
 using Dapper.Linq.Tokens.Abstractions;
@@ -10,12 +11,17 @@ namespace Dapper.Linq.Queries
 {
 	public class QueryBuilder : ExpressionVisitor, IQueryBuilder
 	{
+		public IEntityMapper Mapper { get; }
+
 		public PredicateCollection Predicates { get; } =
 			new PredicateCollection();
 
-		public QueryBuilder(Type entity)
+		public QueryBuilder(IEntityMapper mapper)
 		{
-			this.AddSelectPredicate(entity);
+			Mapper = mapper ??
+				throw new ArgumentNullException(nameof(mapper));
+
+			this.AddSelectPredicate();
 		}
 
 		#region IQueryBuilder
@@ -40,6 +46,7 @@ namespace Dapper.Linq.Queries
 			{
 				var predicate = PredicateToken.Create(
 					predicateType,
+					Mapper,
 					expression);
 
 				Predicates.Add(predicate);
@@ -55,9 +62,9 @@ namespace Dapper.Linq.Queries
 		private static bool IsPredicate(string name, out PredicateType type) =>
 			EnumHelper.TryGetFromDescription(name, out type);
 
-		private void AddSelectPredicate(Type entity)
+		private void AddSelectPredicate()
 		{
-			var select = new SelectToken(entity);
+			var select = new SelectToken(Mapper);
 			Predicates.Add(select);
 		}
 

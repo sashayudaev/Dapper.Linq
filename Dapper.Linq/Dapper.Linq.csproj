@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Mappers\AttributeEntityMapper.cs" />
     <Compile Include="Configuration\DapperConfiguration.cs" />
+    <Compile Include="Helpers\AttributeHelper.cs" />
     <Compile Include="Mappers\EntityMapperCollection.cs" />
     <Compile Include="Context\PostgresContext.cs" />
     <Compile Include="Context\SqlServerContext.cs" />

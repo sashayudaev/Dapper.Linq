@@ -1,7 +1,6 @@
 ﻿using System;
-using Dapper.Linq.Core;
 
-namespace Dapper.Linq.Attributes
+namespace Dapper.Linq.Core.Attributes
 {
 	public class DialectAttribute : Attribute
 	{

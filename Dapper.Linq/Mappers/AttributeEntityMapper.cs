@@ -1,26 +1,13 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
+using Dapper.Linq.Helpers;
 using Dapper.Linq.Core.Mappers;
 
 namespace Dapper.Linq.Mappers
 {
-	using Table = Attributes.TableAttribute;
-	using Key = Attributes.KeyAttribute;
-	using CompositeKey = Attributes.CompositeKeyAttribute;
-	using Column = Attributes.ColumnAttribute;
-
-	public static class AttributeHelper
-	{
-		public static bool HasAttribute<TAttribute>(this object source, out TAttribute attribute)
-			where TAttribute : Attribute => HasAttribute(source.GetType(), out attribute);
-
-		public static bool HasAttribute<TAttribute>(this MemberInfo member, out TAttribute attribute)
-			where TAttribute : Attribute
-		{
-			attribute = member.GetCustomAttribute<TAttribute>();
-			return attribute != null;
-		}
-	}
+	using Table = Core.Attributes.TableAttribute;
+	using Key = Core.Attributes.KeyAttribute;
+	using CompositeKey = Core.Attributes.CompositeKeyAttribute;
+	using Column = Core.Attributes.ColumnAttribute;
 
 	public class AttributeEntityMapper<TEntity> : EntityMapper<TEntity>
 		where TEntity : class
