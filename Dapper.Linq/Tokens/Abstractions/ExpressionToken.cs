@@ -1,5 +1,5 @@
-﻿using System.Linq.Expressions;
-using System.Text;
+﻿using System.Text;
+using System.Linq.Expressions;
 using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Core.Tokens;
 

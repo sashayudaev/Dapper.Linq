@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using System.Text;
 using Dapper.Linq.Core;
@@ -12,15 +10,14 @@ namespace Dapper.Linq.Tokens
 {
 	public class SelectToken : TokenBase, IPredicateToken
 	{
-		public IPropertyMapper[] Properties { get; }
-
-		public IEntityMapper Mapper { get; }
+		public override bool IsValid =>
+			Mapper.EntityType != null;
 
 		public PredicateType PredicateType =>
 			PredicateType.Select;
 
-		public override bool IsValid =>
-			Mapper.EntityType != null;
+		public IEntityMapper Mapper { get; }
+		public IPropertyMapper[] Properties { get; }
 
 		public string Schema =>
 			Mapper.SchemaName;
@@ -43,19 +40,19 @@ namespace Dapper.Linq.Tokens
 			}
 		}
 
-		private IPropertyMapper GetPropertyMap(PropertyInfo property) =>
-			Mapper.GetProperty(property.Name);
-
 		public override string Value =>
 			$"SELECT {Columns} FROM {Schema}.{Table}";
 
 		public SelectToken(IEntityMapper mapper)
 		{
 			Mapper = mapper;
-			Properties = Mapper.EntityType
-				.GetProperties()
+			Properties = Mapper
+				.EntityType.GetProperties()
 				.Select(GetPropertyMap)
 				.ToArray();
 		}
+
+		private IPropertyMapper GetPropertyMap(PropertyInfo property) =>
+			Mapper.GetProperty(property.Name);
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Dapper.Linq.Configuration;
 using Dapper.Linq.Core;
-using Dapper.Linq.Tokens;
 
 namespace Dapper.Linq.Queries
 {
