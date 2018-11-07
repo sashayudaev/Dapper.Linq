@@ -44,6 +44,10 @@
     <Compile Include="Attributes\ColumnAttribute.cs" />
     <Compile Include="Attributes\CompositeKeyAttribute.cs" />
     <Compile Include="Attributes\DialectAttribute.cs" />
+    <Compile Include="Configuration\IDapperConfiguration.cs" />
+    <Compile Include="Configuration\IEntityMapper.cs" />
+    <Compile Include="Configuration\ISqlDialect.cs" />
+    <Compile Include="Configuration\SqlDialectBase.cs" />
     <Compile Include="IQueryBuilder.cs" />
     <Compile Include="Tokens\IExpressionToken.cs" />
     <Compile Include="Tokens\IPredicateToken.cs" />
@@ -51,7 +55,6 @@
     <Compile Include="Attributes\KeyAttribute.cs" />
     <Compile Include="Attributes\ProcedureParameterAttribute.cs" />
     <Compile Include="Attributes\TableAttribute.cs" />
-    <Compile Include="IPredicate.cs" />
     <Compile Include="IQueryStorage.cs" />
     <Compile Include="ICrudStorage.cs" />
     <Compile Include="IStorageContext.cs" />
