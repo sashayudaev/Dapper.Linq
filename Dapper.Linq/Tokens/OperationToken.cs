@@ -22,6 +22,7 @@ namespace Dapper.Linq.Tokens
 			switch (Operation)
 			{
 				case ExpressionType.And:
+				case ExpressionType.AndAlso:
 					return " AND ";
 				case ExpressionType.Or:
 					return " OR";

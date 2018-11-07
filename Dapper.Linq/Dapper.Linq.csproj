@@ -73,7 +73,7 @@
     <Compile Include="Tokens\Abstractions\PredicateToken.cs" />
     <Compile Include="Tokens\OrderByToken.cs" />
     <Compile Include="Tokens\PropertyToken.cs" />
-    <Compile Include="Tokens\QueryBuilder.cs" />
+    <Compile Include="Queries\QueryBuilder.cs" />
     <Compile Include="Tokens\SelectToken.cs" />
     <Compile Include="Tokens\TakeToken.cs" />
     <Compile Include="Tokens\Abstractions\TokenBase.cs" />

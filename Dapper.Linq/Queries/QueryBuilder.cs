@@ -3,9 +3,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using Dapper.Linq.Core;
 using Dapper.Linq.Helpers;
+using Dapper.Linq.Tokens;
 using Dapper.Linq.Tokens.Abstractions;
 
-namespace Dapper.Linq.Tokens
+namespace Dapper.Linq.Queries
 {
 	public class QueryBuilder : ExpressionVisitor, IQueryBuilder
 	{

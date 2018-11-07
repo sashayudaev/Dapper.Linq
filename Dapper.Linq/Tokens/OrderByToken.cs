@@ -9,9 +9,8 @@ namespace Dapper.Linq.Tokens
 	{
 		public bool Descending { get; }
 
-		public override PredicateType PredicateType => Descending
-			? PredicateType.OrderByDescending
-			: PredicateType.OrderBy;
+		public override PredicateType PredicateType =>
+			PredicateType.OrderBy;
 
 		public override string Value
 		{
@@ -25,7 +24,7 @@ namespace Dapper.Linq.Tokens
 
 				if (Descending)
 				{
-					Query.Append("DESC ");
+					Query.Append(" DESC ");
 				}
 
 				return Query.ToString();
