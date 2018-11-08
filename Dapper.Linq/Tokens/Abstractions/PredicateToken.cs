@@ -32,6 +32,8 @@ namespace Dapper.Linq.Tokens.Abstractions
 			{
 				case PredicateType.Where:
 					return new WhereToken(expression, mapper);
+				case PredicateType.GroupBy:
+					return new GroupByToken(expression, mapper);
 				case PredicateType.OrderBy:
 					return new OrderByToken(expression, mapper);
 				case PredicateType.OrderByDescending:

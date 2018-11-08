@@ -8,7 +8,7 @@ namespace Dapper.Linq.Tokens
 	public class GroupByToken : PredicateToken
 	{
 		public override PredicateType PredicateType =>
-			PredicateType.GropuBy;
+			PredicateType.GroupBy;
 
 		public override string Value
 		{

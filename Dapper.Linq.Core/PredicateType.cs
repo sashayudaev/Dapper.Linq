@@ -4,7 +4,7 @@
 	{
 		Select,
 		Where,
-		GropuBy,
+		GroupBy,
 		OrderBy,
 		OrderByDescending,
 		Take

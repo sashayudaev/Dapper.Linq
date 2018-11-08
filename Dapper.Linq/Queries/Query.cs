@@ -26,9 +26,9 @@ namespace Dapper.Linq.Queries
 				throw new ArgumentNullException(nameof(provider));
 		}
 
-		public IEnumerator<TEntity> GetEnumerator() =>
-			Provider.Execute<IEnumerable<TEntity>>(Expression).GetEnumerator();
-		
+		public IEnumerator<TEntity> GetEnumerator() => Provider
+			.Execute<IEnumerable<TEntity>>(Expression)
+			.GetEnumerator();
 
 		IEnumerator IEnumerable.GetEnumerator() =>
 			((IEnumerable)Provider.Execute(Expression)).GetEnumerator();
