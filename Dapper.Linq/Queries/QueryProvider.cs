@@ -7,44 +7,61 @@ using Dapper.Linq.Core;
 
 namespace Dapper.Linq.Queries
 {
-	internal static class TypeSystem
+	internal static class TypeHelper
 	{
-		internal static Type GetElementType(Type seqType)
+		internal static Type GetElementType(Type sequence)
 		{
-			Type ienum = FindIEnumerable(seqType);
-			if (ienum == null) return seqType;
-			return ienum.GetGenericArguments()[0];
-		}
-		private static Type FindIEnumerable(Type seqType)
-		{
-			if (seqType == null || seqType == typeof(string))
-				return null;
-			if (seqType.IsArray)
-				return typeof(IEnumerable<>).MakeGenericType(seqType.GetElementType());
-			if (seqType.IsGenericType)
+			Type enumerable = FindEnumerable(sequence);
+			if (enumerable == null)
 			{
-				foreach (Type arg in seqType.GetGenericArguments())
+				return sequence;
+			}
+
+			return enumerable.GetGenericArguments()[0];
+		}
+		private static Type FindEnumerable(Type sequence)
+		{
+			if (sequence == null || sequence == typeof(string))
+			{
+				return null;
+			}
+
+			if (sequence.IsArray)
+			{
+				var element = sequence.GetElementType();
+				return typeof(IEnumerable<>).MakeGenericType(element);
+			}
+
+			if (sequence.IsGenericType)
+			{
+				foreach (Type arg in sequence.GetGenericArguments())
 				{
 					Type ienum = typeof(IEnumerable<>).MakeGenericType(arg);
-					if (ienum.IsAssignableFrom(seqType))
+					if (ienum.IsAssignableFrom(sequence))
 					{
 						return ienum;
 					}
 				}
 			}
-			Type[] ifaces = seqType.GetInterfaces();
-			if (ifaces != null && ifaces.Length > 0)
+			var interfaces = sequence.GetInterfaces();
+			if (interfaces != null && interfaces.Length > 0)
 			{
-				foreach (Type iface in ifaces)
+				foreach (Type iface in interfaces)
 				{
-					Type ienum = FindIEnumerable(iface);
-					if (ienum != null) return ienum;
+					Type ienum = FindEnumerable(iface);
+					if (ienum != null)
+					{
+
+					}
 				}
 			}
-			if (seqType.BaseType != null && seqType.BaseType != typeof(object))
+
+			if (sequence.BaseType != null && 
+				sequence.BaseType != typeof(object))
 			{
-				return FindIEnumerable(seqType.BaseType);
+				return FindEnumerable(sequence.BaseType);
 			}
+
 			return null;
 		}
 	}
@@ -61,7 +78,7 @@ namespace Dapper.Linq.Queries
 
 		public IQueryable CreateQuery(Expression expression)
 		{
-			var entity = TypeSystem.GetElementType(expression.Type);
+			var entity = TypeHelper.GetElementType(expression.Type);
 
 			var query = (IQueryable) Activator
 				.CreateInstance(typeof(Query<>)
