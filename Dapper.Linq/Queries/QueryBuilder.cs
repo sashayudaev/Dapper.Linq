@@ -34,7 +34,7 @@ namespace Dapper.Linq.Queries
 
 		protected override Expression VisitMethodCall(MethodCallExpression expression)
 		{
-			if (!IsNotQueryable(expression))
+			if (IsNotQueryable(expression))
 			{
 				throw new NotSupportedException(
 					$"The method '{expression.Method.Name}' is not supported. " +
@@ -57,7 +57,7 @@ namespace Dapper.Linq.Queries
 		}
 
 		private static bool IsNotQueryable(MethodCallExpression expression) =>
-			typeof(Queryable).IsAssignableFrom(expression.Method.DeclaringType);
+			!typeof(Queryable).IsAssignableFrom(expression.Method.DeclaringType);
 
 		private static bool IsPredicate(string name, out PredicateType type) =>
 			EnumHelper.TryGetFromDescription(name, out type);

@@ -21,7 +21,8 @@ namespace Dapper.Linq.Queries
 		}
 		private static Type FindEnumerable(Type sequence)
 		{
-			if (sequence == null || sequence == typeof(string))
+			if (sequence == null || 
+				sequence == typeof(string))
 			{
 				return null;
 			}

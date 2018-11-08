@@ -1,7 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace Dapper.Linq.Helpers
 {
@@ -24,7 +24,7 @@ namespace Dapper.Linq.Helpers
 			try
 			{
 				value = values.First(source =>
-					source.GetDescription().Equals(description));
+					source.OrdinalEquals(description));
 				return true;
 			}
 			catch
