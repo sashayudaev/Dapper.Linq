@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using Dapper.Linq.Configuration;
@@ -53,14 +52,11 @@ namespace Dapper.Linq.Queries
 	internal class QueryProvider<TEntity> : IQueryProvider
 	{
 		public IStorageContext Context { get; }
-		public IDbConnection Connection { get; }
 
 		public QueryProvider(IStorageContext context)
 		{
 			Context = context ?? 
 				throw new ArgumentNullException(nameof(context));
-
-			Connection = Context.ConfigureConnection();
 		}
 
 		public IQueryable CreateQuery(Expression expression)
@@ -86,13 +82,19 @@ namespace Dapper.Linq.Queries
 		private object ExecuteInternal(Expression expression)
 		{
 			var mapper = DapperConfiguration.GetMapper<TEntity>();
-
 			var queryBuilder = new QueryBuilder(mapper);
 
-			var query = queryBuilder.Build(expression);
-			var result = Connection.Query<TEntity>(query);
+			var sql = queryBuilder.Build(expression);
 
-			return result;
+			return this.Query(sql);
+		}
+
+		private IEnumerable<TEntity> Query(string query)
+		{
+			using (var connection = Context.ConfigureConnection())
+			{
+				return connection.Query<TEntity>(query);
+			}
 		}
 	}
 }

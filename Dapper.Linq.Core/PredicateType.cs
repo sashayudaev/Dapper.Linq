@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dapper.Linq.Core
+﻿namespace Dapper.Linq.Core
 {
 	public enum PredicateType
 	{
 		Select,
 		Where,
+		GropuBy,
 		OrderBy,
 		OrderByDescending,
 		Take
