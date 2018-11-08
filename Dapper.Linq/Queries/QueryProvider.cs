@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using Dapper.Linq.Configuration;
 using Dapper.Linq.Core;
 
 namespace Dapper.Linq.Queries
@@ -49,7 +50,7 @@ namespace Dapper.Linq.Queries
 		}
 	}
 
-	public abstract class QueryProvider : IQueryProvider
+	internal class QueryProvider<TEntity> : IQueryProvider
 	{
 		public IStorageContext Context { get; }
 		public IDbConnection Connection { get; }
@@ -73,12 +74,25 @@ namespace Dapper.Linq.Queries
 			return query;
 		}
 
-		public IQueryable<TEntity> CreateQuery<TEntity>(Expression expression) =>
-			new Query<TEntity>(this, expression);
+		public IQueryable<TElement> CreateQuery<TElement>(Expression expression) =>
+			new Query<TElement>(this, expression);
 
-		public abstract TEntity Execute<TEntity>(Expression expression);
+		public TElement Execute<TElement>(Expression expression) =>
+			(TElement)this.ExecuteInternal(expression);
 
 		object IQueryProvider.Execute(Expression expression) =>
-			this.Execute<object>(expression);
+			this.ExecuteInternal(expression);
+
+		private object ExecuteInternal(Expression expression)
+		{
+			var mapper = DapperConfiguration.GetMapper<TEntity>();
+
+			var queryBuilder = new QueryBuilder(mapper);
+
+			var query = queryBuilder.Build(expression);
+			var result = Connection.Query<TEntity>(query);
+
+			return result;
+		}
 	}
 }

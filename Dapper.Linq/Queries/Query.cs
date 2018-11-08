@@ -27,7 +27,7 @@ namespace Dapper.Linq.Queries
 		}
 
 		public IEnumerator<TEntity> GetEnumerator() =>
-			((IEnumerable<TEntity>)Provider.Execute<TEntity>(Expression)).GetEnumerator();
+			Provider.Execute<IEnumerable<TEntity>>(Expression).GetEnumerator();
 		
 
 		IEnumerator IEnumerable.GetEnumerator() =>

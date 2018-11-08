@@ -45,6 +45,7 @@
     <Compile Include="Attributes\CompositeKeyAttribute.cs" />
     <Compile Include="Attributes\DialectAttribute.cs" />
     <Compile Include="Configuration\IDapperConfiguration.cs" />
+    <Compile Include="IQueryFactory.cs" />
     <Compile Include="Mappers\EntityMapper.cs" />
     <Compile Include="Mappers\IEntityMapper.cs" />
     <Compile Include="Mappers\IPropertyMapper.cs" />
