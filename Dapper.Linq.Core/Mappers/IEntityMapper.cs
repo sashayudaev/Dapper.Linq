@@ -10,10 +10,4 @@ namespace Dapper.Linq.Core.Mappers
 
 		IPropertyMapper GetProperty(string name);
 	}
-
-	public interface IEntityMapper<TEntity> : IEntityMapper
-		where TEntity : class
-	{
-
-	}
 }

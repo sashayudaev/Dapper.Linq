@@ -5,6 +5,13 @@ using Dapper.Linq.Core.Mappers;
 
 namespace Dapper.Linq.Configuration
 {
+	public static class DapperConfigurationExtensions
+	{
+		public static IDapperConfiguration UseMapper<TMapper>(this IDapperConfiguration configuration)
+			where TMapper : IEntityMapper =>
+			configuration.UseMapper(typeof(TMapper));
+	}
+
 	public class DapperConfiguration : IDapperConfiguration
 	{
 		public static Type EntityMapper { get; private set; }

@@ -4,8 +4,7 @@ using System.Reflection;
 
 namespace Dapper.Linq.Core.Mappers
 {
-	public class EntityMapper<TEntity> : IEntityMapper<TEntity>
-		where TEntity : class
+	public class EntityMapper : IEntityMapper
 	{
 		public Type EntityType { get; }
 
@@ -14,9 +13,9 @@ namespace Dapper.Linq.Core.Mappers
 
 		public IDictionary<string, IPropertyMapper> Properties { get; }
 
-		public EntityMapper()
+		public EntityMapper(Type entityType)
 		{
-			EntityType = typeof(TEntity);
+			EntityType = entityType;
 			Properties = new Dictionary<string, IPropertyMapper>();
 		}
 

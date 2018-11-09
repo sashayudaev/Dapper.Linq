@@ -18,11 +18,9 @@ namespace Dapper.Linq.Mappers
 
 		public void Add(Type entity)
 		{
-			var mapperType = DapperConfiguration
-				.EntityMapper
-				.MakeGenericType(entity);
+			var mapperType = DapperConfiguration.EntityMapper;
 
-			var mapper = Activator.CreateInstance(mapperType)
+			var mapper = Activator.CreateInstance(mapperType, entity)
 				as IEntityMapper;
 
 			this.TryAdd(entity, mapper);

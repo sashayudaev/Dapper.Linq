@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Dapper.Linq.Helpers;
 using Dapper.Linq.Core.Mappers;
 
@@ -9,10 +10,10 @@ namespace Dapper.Linq.Mappers
 	using CompositeKey = Core.Attributes.CompositeKeyAttribute;
 	using Column = Core.Attributes.ColumnAttribute;
 
-	public class AttributeEntityMapper<TEntity> : EntityMapper<TEntity>
-		where TEntity : class
+	public class AttributeEntityMapper : EntityMapper
 	{
-		public AttributeEntityMapper()
+		public AttributeEntityMapper(Type entityType)
+			: base(entityType)
 		{
 			this.MapEntity();
 		}
