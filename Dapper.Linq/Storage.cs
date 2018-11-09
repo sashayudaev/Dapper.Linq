@@ -19,8 +19,6 @@ namespace Dapper.Linq
 		public IQueryable<TEntity> Select<TEntity>()
 			where TEntity : class
 		{
-			var info = typeof(ICrudStorage).GetMethod("Select");
-
 			var method = Expression.Call(
 				Expression.Constant(this),
 				new Func<IQueryable<TEntity>>(this.Select<TEntity>).Method);
@@ -32,8 +30,6 @@ namespace Dapper.Linq
 			where TEntity : class
 		{
 			var parameter = Expression.Parameter(typeof(TEntity));
-
-			var info = typeof(ICrudStorage).GetMethod("InsertAsync");
 
 			var method = Expression.Call(
 				Expression.Constant(this),
