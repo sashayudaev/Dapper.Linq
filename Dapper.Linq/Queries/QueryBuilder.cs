@@ -20,8 +20,6 @@ namespace Dapper.Linq.Queries
 		{
 			Mapper = mapper ??
 				throw new ArgumentNullException(nameof(mapper));
-
-			this.AddSelectPredicate();
 		}
 
 		#region IQueryBuilder
@@ -34,13 +32,6 @@ namespace Dapper.Linq.Queries
 
 		protected override Expression VisitMethodCall(MethodCallExpression expression)
 		{
-			if (IsNotQueryable(expression))
-			{
-				throw new NotSupportedException(
-					$"The method '{expression.Method.Name}' is not supported. " +
-					$"Should be Queryable.");
-			}
-
 			var method = expression.Method.Name;
 			if (IsPredicate(method, out var predicateType))
 			{
@@ -56,19 +47,16 @@ namespace Dapper.Linq.Queries
 			return expression;
 		}
 
-		private static bool IsNotQueryable(MethodCallExpression expression) =>
-			!typeof(Queryable).IsAssignableFrom(expression.Method.DeclaringType);
-
 		private static bool IsPredicate(string name, out PredicateType type) =>
 			EnumHelper.TryGetFromDescription(name, out type);
 
-		private void AddSelectPredicate()
+		private void VisitNext(MethodCallExpression expression)
 		{
-			var select = new SelectToken(Mapper);
-			Predicates.Add(select);
-		}
-
-		private void VisitNext(MethodCallExpression expression) =>
+			if (expression.Arguments.Count == 0)
+			{
+				return;
+			}
 			this.Visit(expression.Arguments[0]);
+		}
 	}
 }

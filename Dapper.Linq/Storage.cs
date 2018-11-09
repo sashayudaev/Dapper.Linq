@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Dapper.Linq.Core;
 
@@ -16,14 +17,31 @@ namespace Dapper.Linq
 
 		#region ICrudStorage
 		public IQueryable<TEntity> Select<TEntity>()
-			where TEntity : class => Factory
-			.CreateProvider<TEntity>()
-			.CreateQuery<TEntity>(null);
+			where TEntity : class
+		{
+			var info = typeof(ICrudStorage).GetMethod("Select");
+
+			var method = Expression.Call(
+				Expression.Constant(this),
+				new Func<IQueryable<TEntity>>(this.Select<TEntity>).Method);
+
+			return Factory.CreateQuery<TEntity>(method);
+		}
 
 		public Task InsertAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
-			throw new NotImplementedException();
+			var parameter = Expression.Parameter(typeof(TEntity));
+
+			var info = typeof(ICrudStorage).GetMethod("InsertAsync");
+
+			var method = Expression.Call(
+				Expression.Constant(this),
+				new Func<TEntity, Task>(this.InsertAsync).Method, 
+				Expression.Constant(entity));
+
+			var result = Factory.CreateProvider<TEntity>().Execute<TEntity>(method);
+			return null;
 		}
 
 		public Task UpdateAsync<TEntity>(TEntity entity) 

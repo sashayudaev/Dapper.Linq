@@ -67,6 +67,7 @@
     <Compile Include="Dialects\PostgresDialect.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Tokens\GroupByToken.cs" />
+    <Compile Include="Tokens\InsertToken.cs" />
     <Compile Include="Tokens\PredicateCollection.cs" />
     <Compile Include="Queries\Query.cs" />
     <Compile Include="Queries\QueryProvider.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
@@ -8,13 +9,10 @@ using Dapper.Linq.Tokens.Abstractions;
 
 namespace Dapper.Linq.Tokens
 {
-	public class SelectToken : PredicateToken
+	public class InsertToken : PredicateToken
 	{
-		public override bool IsValid =>
-			Mapper.EntityType != null;
-
 		public override PredicateType PredicateType =>
-			PredicateType.Select;
+			PredicateType.Insert;
 
 		public IPropertyMapper[] Properties { get; }
 
@@ -28,7 +26,7 @@ namespace Dapper.Linq.Tokens
 		{
 			get
 			{
-				
+
 				var columns = new StringBuilder();
 				foreach (var property in Properties)
 				{
@@ -39,10 +37,7 @@ namespace Dapper.Linq.Tokens
 			}
 		}
 
-		public override string Value =>
-			$"SELECT {Columns} FROM {Schema}.{Table}";
-
-		public SelectToken(MethodCallExpression expression, IEntityMapper mapper)
+		public InsertToken(MethodCallExpression expression, IEntityMapper mapper) 
 			: base(expression, mapper)
 		{
 			Properties = Mapper
@@ -50,6 +45,9 @@ namespace Dapper.Linq.Tokens
 				.Select(GetPropertyMap)
 				.ToArray();
 		}
+
+		public override string Value =>
+			$"INSERT INTO {Schema}.{Table} ({Columns}) VALUES ";
 
 		private IPropertyMapper GetPropertyMap(PropertyInfo property) =>
 			Mapper.GetProperty(property.Name);
