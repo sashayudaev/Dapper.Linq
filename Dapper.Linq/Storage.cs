@@ -3,16 +3,17 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Dapper.Linq.Core;
+using Dapper.Linq.Queries;
 
 namespace Dapper.Linq
 {
 	public class Storage : ICrudStorage, IQueryStorage
 	{
-		public IQueryFactory Factory { get; }
+		public IStorageContext Context { get; }
 
-		public Storage(IQueryFactory factory)
+		public Storage(IStorageContext context)
 		{
-			Factory = factory;
+			Context = context;
 		}
 
 		#region ICrudStorage
@@ -23,7 +24,8 @@ namespace Dapper.Linq
 				Expression.Constant(this),
 				new Func<IQueryable<TEntity>>(this.Select<TEntity>).Method);
 
-			return Factory.CreateQuery<TEntity>(method);
+			var provider = new QueryProvider<TEntity>(Context);
+			return provider.CreateQuery<TEntity>(method);
 		}
 
 		public Task InsertAsync<TEntity>(TEntity entity) 
@@ -36,7 +38,8 @@ namespace Dapper.Linq
 				new Func<TEntity, Task>(this.InsertAsync).Method, 
 				Expression.Constant(entity));
 
-			var result = Factory.CreateProvider<TEntity>().Execute<TEntity>(method);
+			var provider = new QueryProvider<TEntity>(Context);
+			var result = provider.Execute<TEntity>(method);
 			return null;
 		}
 
