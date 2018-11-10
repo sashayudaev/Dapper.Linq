@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Dapper.Linq.Core;
 using Dapper.Linq.Core.Queries;
@@ -38,7 +36,8 @@ namespace Dapper.Linq
 		public Task UpdateAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
-			throw new NotImplementedException();
+			var query = new UpdateQuery<TEntity>(entity);
+			return QueryDispatcher.ExecuteAsync(query);
 		}
 
 		public Task DeleteAsync<TEntity>(TEntity entity) 

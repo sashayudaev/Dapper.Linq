@@ -22,7 +22,7 @@ namespace Dapper.Linq.Queries
 		{
 			using (var connection = Context.ConfigureConnection())
 			{
-				connection.Open();
+				//connection.Open();
 				var id = await connection.ExecuteAsync(
 					query.Token.Value,
 					query.Parameters);
