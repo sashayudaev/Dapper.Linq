@@ -32,8 +32,6 @@ namespace Dapper.Linq.Tokens.Abstractions
 			{
 				case PredicateType.Select:
 					return new SelectToken(expression, mapper);
-				case PredicateType.Insert:
-					return new InsertToken(expression, mapper);
 				case PredicateType.Where:
 					return new WhereToken(expression, mapper);
 				case PredicateType.GroupBy:

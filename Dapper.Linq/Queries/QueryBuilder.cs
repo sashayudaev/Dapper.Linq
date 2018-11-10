@@ -23,8 +23,13 @@ namespace Dapper.Linq.Queries
 		}
 
 		#region IQueryBuilder
-		public string Build(Expression expression)
+		public string Build(QueryType type, Expression expression)
 		{
+			if(type == QueryType.Insert)
+			{
+				var insert = new InsertToken((ConstantExpression)expression, Mapper);
+				return insert.Value;
+			}
 			this.Visit(expression);
 			return Predicates.Value;
 		}
@@ -46,10 +51,6 @@ namespace Dapper.Linq.Queries
 
 			return expression;
 		}
-
-		private static bool IsPredicate(string name, out PredicateType type) =>
-			EnumHelper.TryGetFromDescription(name, out type);
-
 		private void VisitNext(MethodCallExpression expression)
 		{
 			if (expression.Arguments.Count == 0)
@@ -58,5 +59,8 @@ namespace Dapper.Linq.Queries
 			}
 			this.Visit(expression.Arguments[0]);
 		}
+
+		private static bool IsPredicate(string name, out PredicateType type) =>
+			EnumHelper.TryGetFromDescription(name, out type);
 	}
 }

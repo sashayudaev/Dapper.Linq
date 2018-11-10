@@ -7,9 +7,6 @@ namespace Dapper.Linq.Core
 		[Description("Select")]
 		Select,
 
-		[Description("InsertAsync")]
-		Insert,
-
 		[Description("Where")]
 		Where,
 

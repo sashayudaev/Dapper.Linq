@@ -4,6 +4,6 @@ namespace Dapper.Linq.Core
 {
 	public interface IQueryBuilder
 	{
-		string Build(Expression expression);
+		string Build(QueryType type, Expression expression);
 	}
 }

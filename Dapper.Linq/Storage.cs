@@ -31,16 +31,7 @@ namespace Dapper.Linq
 		public Task InsertAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
-			var parameter = Expression.Parameter(typeof(TEntity));
-
-			var method = Expression.Call(
-				Expression.Constant(this),
-				new Func<TEntity, Task>(this.InsertAsync).Method, 
-				Expression.Constant(entity));
-
-			var provider = new QueryProvider<TEntity>(Context);
-			var result = provider.Execute<TEntity>(method);
-			return null;
+			return new InsertQueryExecutor<TEntity>(Context, entity).ExecuteAsync();
 		}
 
 		public Task UpdateAsync<TEntity>(TEntity entity) 

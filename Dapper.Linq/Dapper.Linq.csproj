@@ -56,7 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factories\QueryFactory.cs" />
     <Compile Include="Mappers\AttributeEntityMapper.cs" />
     <Compile Include="Configuration\DapperConfiguration.cs" />
     <Compile Include="Helpers\AttributeHelper.cs" />
@@ -66,6 +65,7 @@
     <Compile Include="Context\SybaseContext.cs" />
     <Compile Include="Dialects\PostgresDialect.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Queries\InsertQueryExecutor.cs" />
     <Compile Include="Tokens\GroupByToken.cs" />
     <Compile Include="Tokens\InsertToken.cs" />
     <Compile Include="Tokens\PredicateCollection.cs" />
