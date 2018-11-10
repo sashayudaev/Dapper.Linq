@@ -19,12 +19,8 @@ namespace Dapper.Linq
 
 		#region ICrudStorage
 		public IQueryable<TEntity> Select<TEntity>()
-			where TEntity : class
-		{
-			var provider = new QueryProvider<TEntity>(Context);
-			return provider.CreateQuery<TEntity>(null);
-		}
-		
+			where TEntity : class =>
+			QueryDispatcher.Execute<TEntity>();
 
 		public Task InsertAsync<TEntity>(TEntity entity) 
 			where TEntity : class
