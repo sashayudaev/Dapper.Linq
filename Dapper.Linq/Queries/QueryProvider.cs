@@ -83,7 +83,7 @@ namespace Dapper.Linq.Queries
 
 			var query = (IQueryable) Activator
 				.CreateInstance(typeof(Query<>)
-				.MakeGenericType(expression.Type), new object[] { this, expression });
+				.MakeGenericType(expression.Type), WithArguments(this, expression));
 
 			return query;
 		}
@@ -114,5 +114,8 @@ namespace Dapper.Linq.Queries
 				return connection.Query<TEntity>(query);
 			}
 		}
+
+		private object[] WithArguments(params object[] arguments) =>
+			arguments;
 	}
 }
