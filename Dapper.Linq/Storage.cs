@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Dapper.Linq.Core;
+using Dapper.Linq.Core.Queries;
 using Dapper.Linq.Queries;
 
 namespace Dapper.Linq
@@ -10,28 +11,28 @@ namespace Dapper.Linq
 	public class Storage : ICrudStorage, IQueryStorage
 	{
 		public IStorageContext Context { get; }
+		public IQueryDispatcher QueryDispatcher { get; }
 
 		public Storage(IStorageContext context)
 		{
 			Context = context;
+			QueryDispatcher = new QueryDispatcher(Context);
 		}
 
 		#region ICrudStorage
 		public IQueryable<TEntity> Select<TEntity>()
 			where TEntity : class
 		{
-			var method = Expression.Call(
-				Expression.Constant(this),
-				new Func<IQueryable<TEntity>>(this.Select<TEntity>).Method);
-
 			var provider = new QueryProvider<TEntity>(Context);
-			return provider.CreateQuery<TEntity>(method);
+			return provider.CreateQuery<TEntity>(null);
 		}
+		
 
 		public Task InsertAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
-			return new InsertQueryExecutor<TEntity>(Context, entity).ExecuteAsync();
+			var query = new InsertQuery<TEntity>(entity);
+			return QueryDispatcher.ExecuteAsync(query);
 		}
 
 		public Task UpdateAsync<TEntity>(TEntity entity) 
@@ -43,7 +44,8 @@ namespace Dapper.Linq
 		public Task DeleteAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
-			throw new NotImplementedException();
+			var query = new DeleteQuery<TEntity>(entity);
+			return QueryDispatcher.ExecuteAsync(query);
 		}
 		#endregion
 	}

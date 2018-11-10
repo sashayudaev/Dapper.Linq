@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Dapper.Linq.Configuration;
 using Dapper.Linq.Core;
 using Dapper.Linq.Core.Mappers;
+using Dapper.Linq.Core.Queries;
 
 namespace Dapper.Linq.Queries
 {
@@ -24,7 +24,7 @@ namespace Dapper.Linq.Queries
 			var queryBuilder = new QueryBuilder(mapper);
 			var expression = Expression.Constant(Entity);
 
-			var sql = queryBuilder.Build(QueryType.Insert, expression);
+			var sql = queryBuilder.Build(expression);
 			var parameters = this.GenerateParameters(mapper);
 			return this.Query(sql, parameters);
 		}
@@ -46,7 +46,7 @@ namespace Dapper.Linq.Queries
 			using (var connection = Context.ConfigureConnection())
 			{
 				connection.Open();
-				var id = await connection.ExecuteAsync(query, parameters, commandType: System.Data.CommandType.Text);
+				await connection.ExecuteAsync(query, parameters, commandType: System.Data.CommandType.Text);
 				return;
 			}
 		}

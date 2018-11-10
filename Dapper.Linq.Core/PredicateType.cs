@@ -4,6 +4,7 @@ namespace Dapper.Linq.Core
 {
 	public enum PredicateType
 	{
+		//TODO: Remove
 		[Description("Select")]
 		Select,
 

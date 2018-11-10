@@ -2,7 +2,6 @@
 using System.Linq.Expressions;
 using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Core.Tokens;
-using Dapper.Linq.Configuration;
 
 namespace Dapper.Linq.Tokens.Abstractions
 {
