@@ -22,7 +22,6 @@ namespace Dapper.Linq.Tokens.Abstractions
 		public ExpressionToken(TExpression expression, IEntityMapper mapper)
 		{
 			Mapper = mapper;
-			var type = expression.Type;
 			Expression = expression;
 			Query = new StringBuilder();
 		}
