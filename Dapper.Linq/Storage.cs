@@ -13,11 +13,17 @@ namespace Dapper.Linq
 		public IQueryDispatcher QueryDispatcher { get; }
 
 		public Storage(IStorageContext context)
+			:this(context, CreateDispatcher(context))
+		{
+
+		}
+
+		public Storage(IStorageContext context, IQueryDispatcher dispatcher)
 		{
 			Context = context ??
 				throw new ArgumentNullException(nameof(context));
-
-			QueryDispatcher = new QueryDispatcher(Context);
+			QueryDispatcher = dispatcher ??
+				throw new ArgumentNullException(nameof(dispatcher));
 		}
 
 		#region ICrudStorage
@@ -46,5 +52,8 @@ namespace Dapper.Linq
 			await QueryDispatcher.ExecuteAsync(query);
 		}
 		#endregion
+
+		private static IQueryDispatcher CreateDispatcher(
+			IStorageContext context) => new QueryDispatcher(context);
 	}
 }
