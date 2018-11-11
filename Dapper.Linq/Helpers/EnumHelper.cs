@@ -49,6 +49,6 @@ namespace Dapper.Linq.Helpers
 		//TODO: Change to "OrdinalEquals"
 		public static bool OrdinalEquals<TEnum>(this TEnum source, string other)
 			where TEnum : struct =>
-			source.GetDescription().Equals(other);
+			source.GetDescription().OrdinalEquals(other);
 	}
 }

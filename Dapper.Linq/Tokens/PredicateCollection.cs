@@ -7,10 +7,8 @@ namespace Dapper.Linq.Tokens
 {
 	public class PredicateCollection : SortedList<PredicateType, IPredicateToken>, IToken
 	{
-		public PredicateType PredicateType =>
-			throw new KeyNotFoundException();
-
-		public bool IsValid => true;
+		public bool IsValid => 
+			true;
 
 		public string Value =>
 			this.BuildQuery();

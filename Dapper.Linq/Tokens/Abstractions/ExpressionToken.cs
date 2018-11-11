@@ -2,7 +2,6 @@
 using System.Linq.Expressions;
 using Dapper.Linq.Core.Mappers;
 using Dapper.Linq.Core.Tokens;
-using Dapper.Linq.Configuration;
 
 namespace Dapper.Linq.Tokens.Abstractions
 {
@@ -23,7 +22,6 @@ namespace Dapper.Linq.Tokens.Abstractions
 		public ExpressionToken(TExpression expression, IEntityMapper mapper)
 		{
 			Mapper = mapper;
-			var type = expression.Type;
 			Expression = expression;
 			Query = new StringBuilder();
 		}

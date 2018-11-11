@@ -30,8 +30,6 @@ namespace Dapper.Linq.Tokens.Abstractions
 		{
 			switch (type)
 			{
-				case PredicateType.Select:
-					return new SelectToken(expression, mapper);
 				case PredicateType.Where:
 					return new WhereToken(expression, mapper);
 				case PredicateType.GroupBy:
@@ -42,6 +40,8 @@ namespace Dapper.Linq.Tokens.Abstractions
 					return new OrderByToken(expression, mapper, descending: true);
 				case PredicateType.Take:
 					return new TakeToken(expression, mapper);
+				case PredicateType.First:
+					return new FirstToken(expression, mapper);
 				default:
 					throw new InvalidOperationException(
 						$"Predicate {type} does not exists");

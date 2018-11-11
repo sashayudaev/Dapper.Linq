@@ -39,7 +39,7 @@ namespace Dapper.Linq.Queries
 			var mapper = DapperConfiguration.GetMapper<TEntity>();
 			var query = new QueryBuilder(mapper);
 
-			return query.Build(Core.QueryType.Select, Expression);
+			return query.Build(Expression);
 		}
 	}
 }

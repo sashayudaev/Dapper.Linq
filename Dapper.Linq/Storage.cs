@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Dapper.Linq.Core;
+using Dapper.Linq.Core.Queries;
 using Dapper.Linq.Queries;
 
 namespace Dapper.Linq
@@ -10,41 +10,50 @@ namespace Dapper.Linq
 	public class Storage : ICrudStorage, IQueryStorage
 	{
 		public IStorageContext Context { get; }
+		public IQueryDispatcher QueryDispatcher { get; }
 
 		public Storage(IStorageContext context)
+			:this(context, CreateDispatcher(context))
 		{
-			Context = context;
+
+		}
+
+		public Storage(IStorageContext context, IQueryDispatcher dispatcher)
+		{
+			Context = context ??
+				throw new ArgumentNullException(nameof(context));
+			QueryDispatcher = dispatcher ??
+				throw new ArgumentNullException(nameof(dispatcher));
 		}
 
 		#region ICrudStorage
 		public IQueryable<TEntity> Select<TEntity>()
+			where TEntity : class =>
+			QueryDispatcher.Execute<TEntity>();
+
+		public async Task InsertAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
-			var method = Expression.Call(
-				Expression.Constant(this),
-				new Func<IQueryable<TEntity>>(this.Select<TEntity>).Method);
-
-			var provider = new QueryProvider<TEntity>(Context);
-			return provider.CreateQuery<TEntity>(method);
+			var query = new InsertQuery<TEntity>(entity);
+			await QueryDispatcher.ExecuteAsync(query);
 		}
 
-		public Task InsertAsync<TEntity>(TEntity entity) 
+		public async Task UpdateAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
-			return new InsertQueryExecutor<TEntity>(Context, entity).ExecuteAsync();
+			var query = new UpdateQuery<TEntity>(entity);
+			await QueryDispatcher.ExecuteAsync(query);
 		}
 
-		public Task UpdateAsync<TEntity>(TEntity entity) 
+		public async Task DeleteAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
-			throw new NotImplementedException();
-		}
-
-		public Task DeleteAsync<TEntity>(TEntity entity) 
-			where TEntity : class
-		{
-			throw new NotImplementedException();
+			var query = new DeleteQuery<TEntity>(entity);
+			await QueryDispatcher.ExecuteAsync(query);
 		}
 		#endregion
+
+		private static IQueryDispatcher CreateDispatcher(
+			IStorageContext context) => new QueryDispatcher(context);
 	}
 }

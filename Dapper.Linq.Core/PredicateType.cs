@@ -4,6 +4,7 @@ namespace Dapper.Linq.Core
 {
 	public enum PredicateType
 	{
+		//TODO: Remove
 		[Description("Select")]
 		Select,
 
@@ -20,6 +21,9 @@ namespace Dapper.Linq.Core
 		OrderByDescending,
 
 		[Description("Take")]
-		Take
+		Take,
+
+		[Description("FirstOrDefault")]
+		First
 	}
 }

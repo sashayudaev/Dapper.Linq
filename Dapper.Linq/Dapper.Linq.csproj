@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Mappers\AttributeEntityMapper.cs" />
     <Compile Include="Configuration\DapperConfiguration.cs" />
     <Compile Include="Helpers\AttributeHelper.cs" />
@@ -65,9 +66,16 @@
     <Compile Include="Context\SybaseContext.cs" />
     <Compile Include="Dialects\PostgresDialect.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
-    <Compile Include="Queries\InsertQueryExecutor.cs" />
-    <Compile Include="Tokens\GroupByToken.cs" />
-    <Compile Include="Tokens\InsertToken.cs" />
+    <Compile Include="Queries\DeleteQuery.cs" />
+    <Compile Include="Queries\InsertQuery.cs" />
+    <Compile Include="Queries\QueryBase.cs" />
+    <Compile Include="Queries\QueryDispatcher.cs" />
+    <Compile Include="Queries\UpdateQuery.cs" />
+    <Compile Include="Tokens\Abstractions\QueryToken.cs" />
+    <Compile Include="Tokens\Predicates\FirstToken.cs" />
+    <Compile Include="Tokens\Queries\DeleteToken.cs" />
+    <Compile Include="Tokens\Predicates\GroupByToken.cs" />
+    <Compile Include="Tokens\Queries\InsertToken.cs" />
     <Compile Include="Tokens\PredicateCollection.cs" />
     <Compile Include="Queries\Query.cs" />
     <Compile Include="Queries\QueryProvider.cs" />
@@ -78,14 +86,15 @@
     <Compile Include="Tokens\ConstantToken.cs" />
     <Compile Include="Tokens\OperationToken.cs" />
     <Compile Include="Tokens\Abstractions\PredicateToken.cs" />
-    <Compile Include="Tokens\OrderByToken.cs" />
+    <Compile Include="Tokens\Predicates\OrderByToken.cs" />
     <Compile Include="Tokens\PropertyToken.cs" />
     <Compile Include="Queries\QueryBuilder.cs" />
-    <Compile Include="Tokens\SelectToken.cs" />
-    <Compile Include="Tokens\TakeToken.cs" />
+    <Compile Include="Tokens\Queries\SelectToken.cs" />
+    <Compile Include="Tokens\Predicates\TakeToken.cs" />
     <Compile Include="Tokens\Abstractions\TokenBase.cs" />
+    <Compile Include="Tokens\Queries\UpdateToken.cs" />
     <Compile Include="Tokens\UnaryToken.cs" />
-    <Compile Include="Tokens\WhereToken.cs" />
+    <Compile Include="Tokens\Predicates\WhereToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dapper.Linq.Core\Dapper.Linq.Core.csproj">

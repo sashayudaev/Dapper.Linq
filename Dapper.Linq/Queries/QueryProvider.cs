@@ -102,7 +102,7 @@ namespace Dapper.Linq.Queries
 			var mapper = DapperConfiguration.GetMapper<TEntity>();
 			var queryBuilder = new QueryBuilder(mapper);
 
-			var sql = queryBuilder.Build(QueryType.Select, expression);
+			var sql = queryBuilder.Build(expression);
 
 			return this.Query(sql);
 		}
