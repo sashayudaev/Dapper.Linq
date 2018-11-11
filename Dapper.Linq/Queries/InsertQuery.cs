@@ -1,5 +1,8 @@
 ﻿using Dapper.Linq.Tokens;
 using Dapper.Linq.Core.Tokens;
+using System.Linq.Expressions;
+using System;
+using Dapper.Linq.Core.Queries;
 
 namespace Dapper.Linq.Queries
 {
@@ -11,6 +14,10 @@ namespace Dapper.Linq.Queries
 			Token = this.CreateToken();
 			Parameters = this.CreateParameters(entity);
 		}
+
+
+		public static Expression<Func<TEntity, IQuery>> Create =
+			entity => new InsertQuery<TEntity>(entity);
 
 		protected override IToken CreateToken() =>
 			new InsertToken(Mapper);
