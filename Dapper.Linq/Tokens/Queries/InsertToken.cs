@@ -29,7 +29,8 @@ namespace Dapper.Linq.Tokens
 		{
 			var columns = new StringBuilder();
 			var names = Properties
-				.Select(property => property.ColumnName)
+				.Where(p => p.KeyType != KeyType.Identity)
+				.Select(p => p.ColumnName)
 				.Select(name => $"{prefix}{name}, ");
 
 			columns.AppendRange(names).RemoveLast(2);

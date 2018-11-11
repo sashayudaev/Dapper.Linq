@@ -52,8 +52,8 @@ namespace Dapper.Linq.Tests
 
 			var actual = query.Token.Value;
 			var expected =
-"INSERT INTO schema.table (id, name, valid) " +
-"VALUES (@id, @name, @valid)";
+"INSERT INTO schema.table (name, valid) " +
+"VALUES (@name, @valid)";
 
 			Assert.AreEqual(expected, actual);
 		}
