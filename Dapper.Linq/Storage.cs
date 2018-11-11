@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Dapper.Linq.Core;
 using Dapper.Linq.Core.Queries;
@@ -31,27 +32,25 @@ namespace Dapper.Linq
 			where TEntity : class =>
 			QueryDispatcher.Execute<TEntity>();
 
-		public async Task InsertAsync<TEntity>(TEntity entity) 
-			where TEntity : class
-		{
-			var query = new InsertQuery<TEntity>(entity);
-			await QueryDispatcher.ExecuteAsync(query);
-		}
+		public async Task InsertAsync<TEntity>(TEntity entity)
+			where TEntity : class =>
+			await this.QueryAsync(InsertQuery<TEntity>.Create, entity);
 
 		public async Task UpdateAsync<TEntity>(TEntity entity) 
-			where TEntity : class
-		{
-			var query = new UpdateQuery<TEntity>(entity);
-			await QueryDispatcher.ExecuteAsync(query);
-		}
+			where TEntity : class =>
+			await this.QueryAsync(UpdateQuery<TEntity>.Create, entity);
 
 		public async Task DeleteAsync<TEntity>(TEntity entity) 
-			where TEntity : class
+			where TEntity : class =>
+			await this.QueryAsync(DeleteQuery<TEntity>.Create, entity);
+		#endregion
+
+		private async Task QueryAsync<TEntity>(
+			Expression<Func<TEntity, IQuery>> create, TEntity entity)
 		{
-			var query = new DeleteQuery<TEntity>(entity);
+			var query = create.Compile().Invoke(entity);
 			await QueryDispatcher.ExecuteAsync(query);
 		}
-		#endregion
 
 		private static IQueryDispatcher CreateDispatcher(
 			IStorageContext context) => new QueryDispatcher(context);
