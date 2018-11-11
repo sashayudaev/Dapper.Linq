@@ -67,7 +67,7 @@ namespace Dapper.Linq.Queries
 		}
 	}
 
-	internal class QueryProvider<TEntity> : IQueryProvider
+	public class QueryProvider<TEntity> : IQueryProvider
 	{
 		public IStorageContext Context { get; }
 

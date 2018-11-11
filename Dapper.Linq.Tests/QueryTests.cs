@@ -1,8 +1,11 @@
-﻿using Dapper.Linq.Configuration;
+﻿using System.Linq;
+using Dapper.Linq.Configuration;
+using Dapper.Linq.Core;
 using Dapper.Linq.Mappers;
 using Dapper.Linq.Queries;
 using Dapper.Linq.Tests.Stubs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Dapper.Linq.Tests
 {
@@ -14,6 +17,31 @@ namespace Dapper.Linq.Tests
 		{
 			DapperConfiguration.Create()
 				.UseMapper<AttributeEntityMapper>();
+		}
+
+		[TestMethod]
+		public void GenerateSelectQuery()
+		{
+			var context = Mock.Of<IStorageContext>();
+			var storage = new Storage(context);
+			var provider = new QueryProvider<FakeEntity>(context);
+
+			var queryable = storage
+				.Select<FakeEntity>()
+				.Where(u => u.Id == 1)
+				.OrderByDescending(u => u.Name)
+				.Take(20);
+
+			var query = new Query<FakeEntity>(provider, queryable.Expression);
+			var actual = query.ToString();
+			var expected =
+"SELECT id, name, valid " +
+"FROM schema.table " +
+"WHERE (id = 1) " +
+"ORDER BY name DESC " +
+"LIMIT 20";
+
+			Assert.AreEqual(expected, actual);
 		}
 
 		[TestMethod]
@@ -40,7 +68,7 @@ namespace Dapper.Linq.Tests
 			var expected =
 "UPDATE schema.table " +
 "SET id = @id, name = @name, valid = @valid " +
-"WHERE (id = 1)";
+$"WHERE (id = {entity.Id})";
 
 			Assert.AreEqual(expected, actual);
 		}

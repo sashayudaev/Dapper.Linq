@@ -25,7 +25,7 @@ namespace Dapper.Linq.Tokens
 
 				if (Descending)
 				{
-					Query.Append(" DESC ");
+					Query.Append(" DESC");
 				}
 
 				return Query.ToString();
