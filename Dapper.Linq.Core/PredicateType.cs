@@ -21,6 +21,9 @@ namespace Dapper.Linq.Core
 		OrderByDescending,
 
 		[Description("Take")]
-		Take
+		Take,
+
+		[Description("FirstOrDefault")]
+		First
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper.Linq.Core;
 using Dapper.Linq.Core.Queries;
@@ -13,7 +14,9 @@ namespace Dapper.Linq
 
 		public Storage(IStorageContext context)
 		{
-			Context = context;
+			Context = context ??
+				throw new ArgumentNullException(nameof(context));
+
 			QueryDispatcher = new QueryDispatcher(Context);
 		}
 
@@ -22,25 +25,25 @@ namespace Dapper.Linq
 			where TEntity : class =>
 			QueryDispatcher.Execute<TEntity>();
 
-		public Task InsertAsync<TEntity>(TEntity entity) 
+		public async Task InsertAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
 			var query = new InsertQuery<TEntity>(entity);
-			return QueryDispatcher.ExecuteAsync(query);
+			await QueryDispatcher.ExecuteAsync(query);
 		}
 
-		public Task UpdateAsync<TEntity>(TEntity entity) 
+		public async Task UpdateAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
 			var query = new UpdateQuery<TEntity>(entity);
-			return QueryDispatcher.ExecuteAsync(query);
+			await QueryDispatcher.ExecuteAsync(query);
 		}
 
-		public Task DeleteAsync<TEntity>(TEntity entity) 
+		public async Task DeleteAsync<TEntity>(TEntity entity) 
 			where TEntity : class
 		{
 			var query = new DeleteQuery<TEntity>(entity);
-			return QueryDispatcher.ExecuteAsync(query);
+			await QueryDispatcher.ExecuteAsync(query);
 		}
 		#endregion
 	}

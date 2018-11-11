@@ -68,11 +68,11 @@
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Queries\DeleteQuery.cs" />
     <Compile Include="Queries\InsertQuery.cs" />
-    <Compile Include="Queries\InsertQueryExecutor.cs" />
     <Compile Include="Queries\QueryBase.cs" />
     <Compile Include="Queries\QueryDispatcher.cs" />
     <Compile Include="Queries\UpdateQuery.cs" />
     <Compile Include="Tokens\Abstractions\QueryToken.cs" />
+    <Compile Include="Tokens\Predicates\FirstToken.cs" />
     <Compile Include="Tokens\Queries\DeleteToken.cs" />
     <Compile Include="Tokens\Predicates\GroupByToken.cs" />
     <Compile Include="Tokens\Queries\InsertToken.cs" />

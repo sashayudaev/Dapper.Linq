@@ -47,7 +47,6 @@
     <Compile Include="Configuration\IDapperConfiguration.cs" />
     <Compile Include="Queries\IQuery.cs" />
     <Compile Include="Queries\IQueryDispatcher.cs" />
-    <Compile Include="Queries\IQueryExecutor.cs" />
     <Compile Include="Mappers\EntityMapper.cs" />
     <Compile Include="Mappers\IEntityMapper.cs" />
     <Compile Include="Mappers\IPropertyMapper.cs" />

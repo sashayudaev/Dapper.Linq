@@ -21,9 +21,9 @@ namespace Dapper.Linq.Tokens.Queries
 
 				var names = Properties
 					.Select(property => property.ColumnName)
-					.Select(name => $"{name} = @{name} AND ");
+					.Select(name => $"{name} = @{name}, ");
 
-				columns.AppendRange(names).RemoveLast(4);
+				columns.AppendRange(names).RemoveLast(2);
 				return columns.ToString();
 			}
 		}

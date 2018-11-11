@@ -9,6 +9,7 @@ namespace Dapper.Linq.Queries
 			: base(entity)
 		{
 			Token = this.CreateToken();
+			Parameters = this.CreateParameters(entity);
 		}
 
 		protected override IToken CreateToken() =>
