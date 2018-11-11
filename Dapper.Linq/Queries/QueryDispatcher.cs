@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper.Linq.Core;
 using Dapper.Linq.Core.Queries;
@@ -11,7 +12,8 @@ namespace Dapper.Linq.Queries
 
 		public QueryDispatcher(IStorageContext context)
 		{
-			Context = context;
+			Context = context ??
+				throw new ArgumentNullException(nameof(context));
 		}
 
 		public IQueryable<TEntity> Execute<TEntity>() => this
